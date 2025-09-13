@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
+import confetti from 'canvas-confetti'
 import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3, Lock, CheckCircle, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -130,6 +131,18 @@ export default function AnalyzePage() {
     }
   }, [])
 
+  // Trigger confetti when user passes a skill
+  useEffect(() => {
+    if (result?.scoreData?.is_passing) {
+      // Delay the confetti to let the UI render first
+      const timer = setTimeout(() => {
+        triggerCelebration()
+      }, 500)
+
+      return () => clearTimeout(timer)
+    }
+  }, [result?.scoreData?.is_passing])
+
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
     setResult(null)
@@ -213,6 +226,45 @@ export default function AnalyzePage() {
     setIsProcessing(false)
     setSelectedSkill("")
     setSelectedVariation("")
+  }
+
+  const triggerCelebration = () => {
+    // Trigger multiple confetti bursts for celebration
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const colors = ['#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+
+    (function frame() {
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.8 },
+        colors: colors
+      });
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.8 },
+        colors: colors
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+
+    // Center burst after a short delay
+    setTimeout(() => {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: colors
+      });
+    }, 300);
   }
 
   const handleSignOut = () => {
