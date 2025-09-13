@@ -75,6 +75,27 @@ export default function DashboardPage() {
     const savedRoadmap = localStorage.getItem(`roadmap_${type}`)
     if (savedRoadmap) {
       const roadmap = JSON.parse(savedRoadmap)
+
+      // Remove planche_lean if it exists (cleanup migration)
+      if (type === "push" && roadmap.skills) {
+        const planche = roadmap.skills.find((skill: any) => skill.name === "planche")
+        if (planche && planche.subSkills) {
+          const plancheLeanIndex = planche.subSkills.findIndex((subSkill: any) => subSkill.name === "planche_lean")
+          if (plancheLeanIndex !== -1) {
+            // Remove planche_lean
+            planche.subSkills.splice(plancheLeanIndex, 1)
+
+            // Update order_index for remaining sub-skills
+            planche.subSkills.forEach((subSkill: any, index: number) => {
+              subSkill.order_index = index + 1
+            })
+
+            // Save the updated roadmap
+            localStorage.setItem(`roadmap_${type}`, JSON.stringify(roadmap))
+          }
+        }
+      }
+
       roadmap.overallProgress = calculateOverallProgress(roadmap)
       return roadmap
     }
