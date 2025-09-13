@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3 } from "lucide-react"
+import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import ReactMarkdown from "react-markdown"
@@ -242,17 +242,24 @@ export default function AnalyzePage() {
                       onClick={() => !isLocked && setShowSkillDropdown(!showSkillDropdown)}
                       disabled={isLocked}
                       className={`w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white transition-all duration-300 shadow-sm ${
-                        isLocked ? "cursor-not-allowed opacity-60" : "hover:border-amber-300 hover:shadow-md"
+                        isLocked
+                          ? "cursor-not-allowed opacity-70 bg-stone-50"
+                          : "hover:border-amber-300 hover:shadow-md"
                       }`}
                     >
-                      <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
-                        {isLocked && lockedSkillName
-                          ? lockedSkillName
-                          : selectedSkill
-                            ? skillData[selectedSkill as keyof typeof skillData].name
-                            : "Choose Movement Type"}
-                      </span>
-                      <ChevronDown className={`h-4 w-4 text-slate-500 ${isLocked ? "opacity-50" : ""}`} />
+                      <div className="flex items-center gap-2">
+                        {isLocked && <Lock className="h-4 w-4 text-stone-500" />}
+                        <span
+                          className={`font-medium font-[family-name:var(--font-inter)] ${isLocked ? "text-stone-500" : "text-slate-700"}`}
+                        >
+                          {isLocked && lockedSkillName
+                            ? lockedSkillName
+                            : selectedSkill
+                              ? skillData[selectedSkill as keyof typeof skillData].name
+                              : "Choose Movement Type"}
+                        </span>
+                      </div>
+                      <ChevronDown className={`h-4 w-4 ${isLocked ? "text-stone-500" : "text-slate-500"}`} />
                     </button>
 
                     {showSkillDropdown && !isLocked && (
@@ -276,17 +283,24 @@ export default function AnalyzePage() {
                         onClick={() => !isLocked && setShowVariationDropdown(!showVariationDropdown)}
                         disabled={isLocked}
                         className={`w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white transition-all duration-300 shadow-sm ${
-                          isLocked ? "cursor-not-allowed opacity-60" : "hover:border-amber-300 hover:shadow-md"
+                          isLocked
+                            ? "cursor-not-allowed opacity-70 bg-stone-50"
+                            : "hover:border-amber-300 hover:shadow-md"
                         }`}
                       >
-                        <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
-                          {selectedVariation
-                            ? skillData[selectedSkill as keyof typeof skillData].variations.find(
-                                (v) => v.id === selectedVariation,
-                              )?.name
-                            : "Choose Progression Level"}
-                        </span>
-                        <ChevronDown className={`h-4 w-4 text-slate-500 ${isLocked ? "opacity-50" : ""}`} />
+                        <div className="flex items-center gap-2">
+                          {isLocked && <Lock className="h-4 w-4 text-stone-500" />}
+                          <span
+                            className={`font-medium font-[family-name:var(--font-inter)] ${isLocked ? "text-stone-500" : "text-slate-700"}`}
+                          >
+                            {selectedVariation
+                              ? skillData[selectedSkill as keyof typeof skillData].variations.find(
+                                  (v) => v.id === selectedVariation,
+                                )?.name
+                              : "Choose Progression Level"}
+                          </span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 ${isLocked ? "text-stone-500" : "text-slate-500"}`} />
                       </button>
 
                       {showVariationDropdown && !isLocked && (
@@ -307,7 +321,7 @@ export default function AnalyzePage() {
 
                   {isLocked && (
                     <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                      <Target className="h-4 w-4 text-amber-600" />
+                      <Lock className="h-4 w-4 text-amber-600" />
                       <span className="text-sm text-amber-700 font-medium">Analyzing: {lockedSkillName}</span>
                     </div>
                   )}

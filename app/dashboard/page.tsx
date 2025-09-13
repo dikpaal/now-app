@@ -9,7 +9,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ChevronDown, ChevronRight, Target, Trophy, Clock, Zap } from "lucide-react"
+import { ChevronDown, ChevronRight, Target, Trophy, Lock, Zap } from "lucide-react"
 
 interface Skill {
   id: number
@@ -475,7 +475,7 @@ export default function DashboardPage() {
       case "current":
         return <Zap className="w-5 h-5 text-primary" />
       case "locked":
-        return <Clock className="w-5 h-5 text-muted-foreground" />
+        return <Lock className="w-5 h-5 text-muted-foreground" />
       default:
         return <Target className="w-5 h-5 text-muted-foreground" />
     }
