@@ -110,8 +110,8 @@ export default function ProgressPage() {
                 </Button>
               </Link>
               <Image
-                src="/kuzan-logo.png"
-                alt="KUZAN Logo"
+                src="/now-logo.jpg" // Updated logo path from kuzan-logo.png to now-logo.jpg
+                alt="Now Logo" // Updated alt text from KUZAN to Now
                 width={40}
                 height={40}
                 className="transition-transform duration-300 hover:scale-105"
