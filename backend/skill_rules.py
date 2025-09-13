@@ -109,5 +109,13 @@ SKILL_RULES = {
             {"name": "Hip Angle", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 175, "max": 180},
             {"name": "Knee Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 175, "max": 180},
         ]
+    },
+    "l_sit": {
+        "angles_to_check": [
+            {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 15, "max": 30},
+            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 165, "max": 190},
+            {"name": "Hip Angle", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 50, "max": 70},
+            {"name": "Leg Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 160, "max": 190},
+        ]
     }
 }
