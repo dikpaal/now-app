@@ -140,7 +140,7 @@ export default function CalisthenicsAnalyzer() {
                 <div className="relative">
                   <button
                     onClick={() => setShowSkillDropdown(!showSkillDropdown)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-base border-2 border-amber-200 rounded-xl bg-white hover:border-amber-400 transition-all duration-200 shadow-sm"
+                    className="w-full flex items-center justify-between px-4 py-3 text-base border-2 border-amber-200 rounded-xl bg-white hover:border-amber-400 transition-all duration-300 shadow-sm hover:shadow-md"
                   >
                     <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
                       {selectedSkill ? skillData[selectedSkill as keyof typeof skillData].name : "Select Movement"}
@@ -149,12 +149,12 @@ export default function CalisthenicsAnalyzer() {
                   </button>
 
                   {showSkillDropdown && (
-                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-amber-200 rounded-xl shadow-xl z-10 overflow-hidden">
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-amber-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
                       {Object.entries(skillData).map(([key, skill]) => (
                         <button
                           key={skill.id}
                           onClick={() => handleSkillSelect(key)}
-                          className="w-full px-4 py-3 text-base text-left text-slate-700 hover:bg-amber-50 transition-colors font-medium font-[family-name:var(--font-inter)]"
+                          className="w-full px-4 py-3 text-base text-left text-slate-700 hover:bg-amber-50 transition-all duration-200 font-medium font-[family-name:var(--font-inter)]"
                         >
                           {skill.name}
                         </button>
@@ -167,7 +167,7 @@ export default function CalisthenicsAnalyzer() {
                   <div className="relative">
                     <button
                       onClick={() => setShowVariationDropdown(!showVariationDropdown)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-base border-2 border-amber-200 rounded-xl bg-white hover:border-amber-400 transition-all duration-200 shadow-sm"
+                      className="w-full flex items-center justify-between px-4 py-3 text-base border-2 border-amber-200 rounded-xl bg-white hover:border-amber-400 transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
                         {selectedVariation
@@ -180,12 +180,12 @@ export default function CalisthenicsAnalyzer() {
                     </button>
 
                     {showVariationDropdown && (
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-amber-200 rounded-xl shadow-xl z-10 overflow-hidden">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-amber-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
                         {skillData[selectedSkill as keyof typeof skillData].variations.map((variation) => (
                           <button
                             key={variation.id}
                             onClick={() => handleVariationSelect(variation.id)}
-                            className="w-full px-4 py-3 text-base text-left text-slate-700 hover:bg-amber-50 transition-colors font-medium font-[family-name:var(--font-inter)]"
+                            className="w-full px-4 py-3 text-base text-left text-slate-700 hover:bg-amber-50 transition-all duration-200 font-medium font-[family-name:var(--font-inter)]"
                           >
                             {variation.name}
                           </button>
@@ -197,8 +197,8 @@ export default function CalisthenicsAnalyzer() {
               </div>
 
               {!previewUrl ? (
-                <div className="border-3 border-dashed border-amber-300 rounded-2xl p-8 text-center hover:border-amber-400 transition-all duration-200 bg-amber-50/30">
-                  <Camera className="h-12 w-12 text-amber-600 mx-auto mb-4" />
+                <div className="border-3 border-dashed border-amber-300 rounded-2xl p-8 text-center hover:border-amber-400 transition-all duration-300 bg-amber-50/30 hover:bg-amber-50/50">
+                  <Camera className="h-12 w-12 text-amber-600 mx-auto mb-4 transition-all duration-300 hover:text-amber-700 hover:scale-110" />
                   <p className="text-slate-700 mb-4 text-lg font-medium font-[family-name:var(--font-inter)]">
                     Upload Movement Photo
                   </p>
@@ -210,7 +210,7 @@ export default function CalisthenicsAnalyzer() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-2 border-amber-400 text-amber-700 bg-white hover:bg-amber-50 font-medium px-8 font-[family-name:var(--font-inter)]"
+                    className="border-2 border-amber-400 text-amber-700 bg-white hover:bg-amber-50 font-medium px-8 font-[family-name:var(--font-inter)] transition-all duration-300 hover:scale-105"
                   >
                     <label htmlFor="file-upload" className="cursor-pointer">
                       Choose File
@@ -219,13 +219,13 @@ export default function CalisthenicsAnalyzer() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg">
+                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg transition-all duration-300 hover:shadow-xl">
                     <Image
                       src={previewUrl || "/placeholder.svg"}
                       alt="Preview"
                       width={400}
                       height={200}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
                   <div className="flex gap-4">
@@ -233,7 +233,7 @@ export default function CalisthenicsAnalyzer() {
                       onClick={analyzeSkill}
                       disabled={isProcessing}
                       size="lg"
-                      className="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl shadow-lg font-[family-name:var(--font-inter)]"
+                      className="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl shadow-lg font-[family-name:var(--font-outfit)] transition-all duration-300 hover:scale-105 disabled:hover:scale-100"
                     >
                       {isProcessing ? "Analyzing..." : "Analyze Movement"}
                     </Button>
@@ -241,7 +241,7 @@ export default function CalisthenicsAnalyzer() {
                       variant="outline"
                       size="lg"
                       onClick={resetAnalysis}
-                      className="border-2 border-slate-300 text-slate-700 bg-white hover:bg-slate-50 font-medium px-6 rounded-xl font-[family-name:var(--font-inter)]"
+                      className="border-2 border-slate-300 text-slate-700 bg-white hover:bg-slate-50 font-medium px-6 rounded-xl font-[family-name:var(--font-inter)] transition-all duration-300 hover:scale-105"
                     >
                       Reset
                     </Button>
@@ -258,33 +258,33 @@ export default function CalisthenicsAnalyzer() {
               </h2>
 
               {isProcessing ? (
-                <div className="flex flex-col items-center justify-center h-64 space-y-4">
-                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-amber-200 border-t-amber-600"></div>
-                  <p className="text-slate-600 text-lg font-medium font-[family-name:var(--font-inter)]">
+                <div className="flex flex-col items-center justify-center h-64 space-y-6">
+                  <div className="animate-spin rounded-full h-12 w-12 border-4 border-amber-200 border-t-amber-600 transition-all duration-300"></div>
+                  <p className="text-slate-600 text-lg font-medium font-[family-name:var(--font-inter)] transition-opacity duration-300">
                     Analyzing your form...
                   </p>
-                  <p className="text-slate-500 text-sm font-[family-name:var(--font-inter)]">
+                  <p className="text-slate-500 text-sm font-[family-name:var(--font-inter)] transition-opacity duration-300">
                     This may take a few moments
                   </p>
                 </div>
               ) : result ? (
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3 pb-4 border-b-2 border-amber-200">
+                <div className="space-y-6 animate-in fade-in duration-500">
+                  <div className="flex items-center gap-3 pb-4 border-b-2 border-amber-200 transition-all duration-300">
                     <span className="text-sm text-slate-600 font-medium uppercase tracking-wide font-[family-name:var(--font-inter)]">
                       Skill Level:
                     </span>
-                    <span className="text-lg font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full font-[family-name:var(--font-outfit)]">
+                    <span className="text-lg font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full font-[family-name:var(--font-outfit)] transition-all duration-300 hover:bg-amber-200">
                       {result.skillLevel}
                     </span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg">
+                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg transition-all duration-300 hover:shadow-xl">
                     <Image
                       src={result.processedImage || "/placeholder.svg"}
                       alt="Analysis result"
                       width={400}
                       height={160}
-                      className="w-full h-40 object-cover"
+                      className="w-full h-40 object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
 
@@ -328,12 +328,12 @@ export default function CalisthenicsAnalyzer() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center h-64 text-center space-y-4">
-                  <Upload className="h-16 w-16 text-amber-400" />
-                  <p className="text-slate-600 text-lg font-medium font-[family-name:var(--font-inter)]">
+                <div className="flex flex-col items-center justify-center h-64 text-center space-y-4 transition-all duration-300">
+                  <Upload className="h-16 w-16 text-amber-400 transition-all duration-300 hover:text-amber-500 hover:scale-110" />
+                  <p className="text-slate-600 text-lg font-medium font-[family-name:var(--font-inter)] transition-opacity duration-300">
                     Ready for Analysis
                   </p>
-                  <p className="text-slate-500 text-sm max-w-xs font-[family-name:var(--font-inter)]">
+                  <p className="text-slate-500 text-sm max-w-xs font-[family-name:var(--font-inter)] transition-opacity duration-300">
                     Upload a photo of your movement to receive detailed form feedback
                   </p>
                 </div>
