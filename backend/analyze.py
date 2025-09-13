@@ -2,7 +2,7 @@ from call_llm import call_llm
 from calculate_angle import calculate_angle
 from skill_rules import SKILL_RULES
 
-def analyze_form(selected_skill, landmarks):
+def analyze(selected_skill, landmarks):
     
     if selected_skill not in SKILL_RULES:
         return f"Analysis for the skill '{selected_skill}' is not implemented yet."

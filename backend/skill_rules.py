@@ -1,4 +1,12 @@
 SKILL_RULES = {
+    "elbow_lever": {
+        "angles_to_check": [
+            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 80, "max": 100},
+            {"name": "Forearm to Ground", "points": ["LEFT_ELBOW", "LEFT_WRIST", "LEFT_SHOULDER"], "min": 0, "max": 20},
+            {"name": "Body Lean", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 160, "max": 180},
+            {"name": "Leg Position", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 160, "max": 180},
+        ]
+    },
     "planche_lean": {
         "angles_to_check": [
             {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 30, "max": 80},

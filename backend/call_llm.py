@@ -124,8 +124,9 @@ Remember: You are their knowledgeable friend who uses precise angle data to give
 """
 
 def call_llm(feedback: str):
-
-    api_key = os.environ["GOOGLE_API_KEY"]
+    
+    load_dotenv()
+    api_key = os.getenv("GOOGLE_API_KEY")
     client = genai.Client(api_key = api_key)
     
     response = client.models.generate_content(
