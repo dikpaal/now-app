@@ -2,14 +2,27 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import confetti from 'canvas-confetti'
-import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3, Lock, CheckCircle, XCircle } from "lucide-react"
+import confetti from "canvas-confetti"
+import {
+  Upload,
+  Camera,
+  Activity,
+  ChevronDown,
+  ArrowLeft,
+  Target,
+  Zap,
+  BarChart3,
+  Lock,
+  CheckCircle,
+  XCircle,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import ReactMarkdown from "react-markdown"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface AnalysisResult {
   processedImage: string
@@ -80,6 +93,9 @@ export default function AnalyzePage() {
   const [showVariationDropdown, setShowVariationDropdown] = useState(false)
   const [isLocked, setIsLocked] = useState(false)
   const [lockedSkillName, setLockedSkillName] = useState<string>("")
+  const [showCelebrationOverlay, setShowCelebrationOverlay] = useState(false)
+
+  const router = useRouter()
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -131,10 +147,8 @@ export default function AnalyzePage() {
     }
   }, [])
 
-  // Trigger confetti when user passes a skill
   useEffect(() => {
     if (result?.scoreData?.is_passing) {
-      // Delay the confetti to let the UI render first
       const timer = setTimeout(() => {
         triggerCelebration()
       }, 500)
@@ -193,7 +207,6 @@ export default function AnalyzePage() {
 
       const data = await response.json()
 
-      // Convert base64 image to data URL for display
       const processedImageUrl = `data:image/jpeg;base64,${data.processedImage}`
 
       const result: AnalysisResult = {
@@ -207,7 +220,6 @@ export default function AnalyzePage() {
       setResult(result)
     } catch (error) {
       console.error("Error analyzing image:", error)
-      // Fallback to show error message
       const errorResult: AnalysisResult = {
         processedImage: previewUrl || "",
         analysis: `## Analysis Error\n\nSorry, we encountered an error while analyzing your movement. Please try again.\n\n**Error details:** ${error instanceof Error ? error.message : "Unknown error"}\n\n### Troubleshooting:\n- Make sure the Python API server is running on localhost:8000\n- Check your internet connection\n- Try uploading a different image`,
@@ -229,51 +241,81 @@ export default function AnalyzePage() {
   }
 
   const triggerCelebration = () => {
-    // Trigger multiple confetti bursts for celebration
-    const duration = 3000;
-    const end = Date.now() + duration;
+    const duration = 3000
+    const end = Date.now() + duration
 
-    const colors = ['#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
-
-    (function frame() {
+    const colors = ["#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#06B6D4"]
+    ;(function frame() {
       confetti({
         particleCount: 2,
         angle: 60,
         spread: 55,
         origin: { x: 0, y: 0.8 },
-        colors: colors
-      });
+        colors: colors,
+      })
       confetti({
         particleCount: 2,
         angle: 120,
         spread: 55,
         origin: { x: 1, y: 0.8 },
-        colors: colors
-      });
+        colors: colors,
+      })
 
       if (Date.now() < end) {
-        requestAnimationFrame(frame);
+        requestAnimationFrame(frame)
       }
-    }());
+    })()
 
-    // Center burst after a short delay
     setTimeout(() => {
       confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: colors
-      });
-    }, 300);
+        colors: colors,
+      })
+    }, 300)
+
+    setTimeout(() => {
+      setShowCelebrationOverlay(true)
+    }, duration + 500)
   }
 
-  const handleSignOut = () => {
-    // Sign out logic will be implemented by backend
-    console.log("Sign out clicked")
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setShowCelebrationOverlay(false)
+    }
+  }
+
+  const handleGoToDashboard = () => {
+    router.push("/dashboard")
   }
 
   return (
     <div className="min-h-screen bg-stone-50">
+      {showCelebrationOverlay && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center transition-all duration-500 ease-out"
+          style={{
+            backdropFilter: "blur(8px)",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          }}
+          onClick={handleOverlayClick}
+        >
+          <div className="text-center space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <h2 className="text-6xl font-bold text-white font-[family-name:var(--font-outfit)] tracking-tight drop-shadow-lg">
+              WAY TO GO!
+            </h2>
+            <Button
+              onClick={handleGoToDashboard}
+              size="lg"
+              className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-8 py-4 text-lg rounded-xl font-[family-name:var(--font-outfit)] transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:scale-105"
+            >
+              Go to Dashboard
+            </Button>
+          </div>
+        </div>
+      )}
+
       <header className="bg-white border-b border-stone-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -290,7 +332,9 @@ export default function AnalyzePage() {
                 <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
                   <Activity className="h-4 w-4 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">Now</h1>
+                <h1 className="text-2xl md:text-5xl font-bold text-slate-800 mb-6 font-[family-name:var(--font-outfit)]">
+                  Now
+                </h1>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -299,7 +343,7 @@ export default function AnalyzePage() {
                 <span>Movement Analyzer</span>
               </div>
               <Button
-                onClick={handleSignOut}
+                onClick={() => console.log("Sign out clicked")}
                 variant="outline"
                 size="sm"
                 className="border-2 border-secondary text-secondary bg-white hover:bg-secondary hover:text-primary-foreground font-medium rounded-lg font-[family-name:var(--font-inter)] transition-all duration-300"
@@ -552,12 +596,13 @@ export default function AnalyzePage() {
                   </div>
                 ) : result ? (
                   <div className="space-y-8">
-                    {/* Score Display */}
                     {result.scoreData && (
                       <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-6 animate-in fade-in slide-in-from-top-4 duration-700">
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-3">
-                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${result.scoreData.is_passing ? 'bg-green-500' : 'bg-amber-500'}`}>
+                            <div
+                              className={`w-12 h-12 rounded-lg flex items-center justify-center ${result.scoreData.is_passing ? "bg-green-500" : "bg-amber-500"}`}
+                            >
                               {result.scoreData.is_passing ? (
                                 <CheckCircle className="h-6 w-6 text-white" />
                               ) : (
@@ -574,7 +619,9 @@ export default function AnalyzePage() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${result.scoreData.is_passing ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                            <div
+                              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${result.scoreData.is_passing ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
+                            >
                               {result.scoreData.is_passing ? (
                                 <>
                                   <CheckCircle className="h-4 w-4" />
@@ -592,14 +639,16 @@ export default function AnalyzePage() {
                             </p>
                           </div>
                         </div>
-                        
+
                         <div className="space-y-2 mb-4">
                           <div className="flex justify-between text-sm">
                             <span className="text-slate-600 font-medium">Progress to Pass</span>
-                            <span className="text-slate-700 font-bold">{Math.ceil(result.scoreData.overall_score)}/{result.scoreData.passing_threshold}</span>
+                            <span className="text-slate-700 font-bold">
+                              {Math.ceil(result.scoreData.overall_score)}/{result.scoreData.passing_threshold}
+                            </span>
                           </div>
-                          <Progress 
-                            value={(result.scoreData.overall_score / result.scoreData.passing_threshold) * 100} 
+                          <Progress
+                            value={(result.scoreData.overall_score / result.scoreData.passing_threshold) * 100}
                             className="h-3"
                           />
                         </div>
@@ -607,13 +656,12 @@ export default function AnalyzePage() {
                         {result.scoreData.missing_landmarks && result.scoreData.missing_landmarks.length > 0 && (
                           <div className="bg-red-50 border border-red-200 rounded-lg p-3">
                             <p className="text-sm text-red-800 font-medium mb-1">Missing Body Points:</p>
-                            <p className="text-xs text-red-600">{result.scoreData.missing_landmarks.join(', ')}</p>
+                            <p className="text-xs text-red-600">{result.scoreData.missing_landmarks.join(", ")}</p>
                           </div>
                         )}
                       </div>
                     )}
 
-                    {/* Skill Level Display */}
                     <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200 animate-in fade-in slide-in-from-top-4 duration-700 delay-100">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-stone-600 rounded-lg flex items-center justify-center">
