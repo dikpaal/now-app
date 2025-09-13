@@ -4,15 +4,134 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 export default function AuthPage() {
   const [mode, setMode] = useState<"login" | "signup">("login")
   const [isLoading, setIsLoading] = useState(false)
+  const [showSkillSelection, setShowSkillSelection] = useState(false)
+  const router = useRouter()
 
   const handleGoogleAuth = async () => {
     setIsLoading(true)
     // Google auth logic will be implemented later
-    setTimeout(() => setIsLoading(false), 2000)
+    setTimeout(() => {
+      setIsLoading(false)
+      if (mode === "signup") {
+        setShowSkillSelection(true)
+      } else {
+        router.push("/dashboard")
+      }
+    }, 2000)
+  }
+
+  const handleSkillSelection = (skillType: "push" | "pull") => {
+    // Store skill selection in localStorage for now (will be replaced with database later)
+    localStorage.setItem("selectedSkillType", skillType)
+    router.push("/dashboard")
+  }
+
+  if (showSkillSelection) {
+    return (
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl space-y-8">
+          {/* Logo Section */}
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <Image
+                src="/kuzan-logo.png"
+                alt="KUZAN Logo"
+                width={80}
+                height={80}
+                className="transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+            <div>
+              <h1 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">Choose Your Path</h1>
+              <p className="text-slate-600 mt-2">Select your calisthenics journey to get a personalized roadmap</p>
+            </div>
+          </div>
+
+          {/* Skill Selection Cards */}
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Push Static Path */}
+            <Card
+              className="bg-white/80 backdrop-blur-sm border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              onClick={() => handleSkillSelection("push")}
+            >
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 bg-terracotta-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <CardTitle className="font-heading text-xl text-slate-800">Push Static</CardTitle>
+                <CardDescription className="text-slate-600">
+                  Master pushing movements and build upper body strength
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-slate-700">Your Journey:</h4>
+                  <div className="space-y-1 text-sm text-slate-600">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
+                      <span>1. Elbow Lever</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
+                      <span>2. L-Sit</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-sage-500 rounded-full"></div>
+                      <span>3. Planche</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Pull Static Path */}
+            <Card
+              className="bg-white/80 backdrop-blur-sm border-amber-200 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              onClick={() => handleSkillSelection("pull")}
+            >
+              <CardHeader className="text-center pb-4">
+                <div className="w-16 h-16 bg-sage-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                  </svg>
+                </div>
+                <CardTitle className="font-heading text-xl text-slate-800">Pull Static</CardTitle>
+                <CardDescription className="text-slate-600">
+                  Develop pulling strength and back muscle control
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <h4 className="font-semibold text-slate-700">Your Journey:</h4>
+                  <div className="space-y-1 text-sm text-slate-600">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-terracotta-500 rounded-full"></div>
+                      <span>1. Back Lever</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-terracotta-500 rounded-full"></div>
+                      <span>2. Front Lever</span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Footer */}
+          <div className="text-center text-sm text-slate-500">
+            <p>Don't worry, you can always change your path later in your dashboard</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

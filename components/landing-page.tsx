@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Target, TrendingUp, Users, Star } from "lucide-react"
+import { ArrowRight, Target, TrendingUp, Star } from "lucide-react"
 import { useEffect, useRef } from "react"
 
 export default function LandingPage() {
@@ -85,15 +85,15 @@ export default function LandingPage() {
             AI-Powered Movement Analysis
           </Badge>
           <h1 className="font-heading text-5xl md:text-7xl font-bold text-foreground mb-6 text-balance fade-in-up animate-in duration-700 delay-200">
-            Elevate Your{" "}
+            Master{" "}
             <span className="text-secondary font-bold bg-gradient-to-r from-secondary to-tertiary bg-clip-text text-transparent animate-pulse">
               Calisthenics
             </span>{" "}
-            Game
+            with AI
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty fade-in-up animate-in duration-700 delay-300">
-            Get instant AI-powered feedback on your calisthenics form. Perfect your planche, handstand, and more with
-            personalized analysis.
+            Follow personalized roadmaps, track your progress, and get instant AI-powered feedback on your calisthenics
+            form. Master skills from elbow lever to planche with guided learning paths.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center fade-in-up animate-in duration-700 delay-400">
             <Button
@@ -101,8 +101,9 @@ export default function LandingPage() {
               size="lg"
               className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg px-8 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl group"
             >
-              <Link href="/analyze">
-                Start Analyzing <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <Link href="/auth">
+                Start Your Journey{" "}
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
             </Button>
             <Button
@@ -111,7 +112,7 @@ export default function LandingPage() {
               size="lg"
               className="text-lg px-8 bg-transparent border-2 border-secondary/30 text-foreground hover:bg-secondary/10 transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
-              <Link href="#features">Learn More</Link>
+              <Link href="/analyze">Try Analyzer</Link>
             </Button>
           </div>
         </div>
@@ -137,8 +138,9 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="text-center mb-16 fade-in-up animate-in duration-700">
             <h2 className="font-heading text-4xl font-bold text-foreground mb-4">Why Choose KUZAN?</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Advanced AI technology meets calisthenics expertise to give you the feedback you need to excel.
+            <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
+              Gamified learning paths meet advanced AI technology to give you the structured guidance and feedback you
+              need to excel.
             </p>
           </div>
 
@@ -146,11 +148,24 @@ export default function LandingPage() {
             <Card className="bg-card border-border/20 hover:shadow-lg transition-all duration-500 hover:scale-105 hover:-translate-y-2 fade-in-up animate-in duration-700 delay-100">
               <CardContent className="p-8 text-center">
                 <div className="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:bg-secondary/20 hover:scale-110">
-                  <Target className="h-8 w-8 text-secondary transition-transform duration-300 hover:rotate-12" />
+                  <svg
+                    className="h-8 w-8 text-secondary transition-transform duration-300 hover:rotate-12"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                    />
+                  </svg>
                 </div>
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Precise Analysis</h3>
-                <p className="text-muted-foreground">
-                  Our AI analyzes your form with precision, identifying areas for improvement in real-time.
+                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Structured Roadmaps</h3>
+                <p className="text-foreground/70">
+                  Follow proven learning paths from beginner to advanced. Master elbow lever, L-sit, planche, and more
+                  with step-by-step guidance.
                 </p>
               </CardContent>
             </Card>
@@ -160,9 +175,10 @@ export default function LandingPage() {
                 <div className="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:bg-secondary/20 hover:scale-110">
                   <TrendingUp className="h-8 w-8 text-secondary transition-transform duration-300 hover:rotate-12" />
                 </div>
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Track Progress</h3>
-                <p className="text-muted-foreground">
-                  Monitor your improvement over time with detailed progress tracking and skill level assessments.
+                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Gamified Progress</h3>
+                <p className="text-foreground/70">
+                  Track your improvement with detailed progress bars, achievements, and milestone celebrations. Stay
+                  motivated with visual feedback.
                 </p>
               </CardContent>
             </Card>
@@ -170,11 +186,12 @@ export default function LandingPage() {
             <Card className="bg-card border-border/20 hover:shadow-lg transition-all duration-500 hover:scale-105 hover:-translate-y-2 fade-in-up animate-in duration-700 delay-300">
               <CardContent className="p-8 text-center">
                 <div className="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 transition-all duration-300 hover:bg-secondary/20 hover:scale-110">
-                  <Users className="h-8 w-8 text-secondary transition-transform duration-300 hover:rotate-12" />
+                  <Target className="h-8 w-8 text-secondary transition-transform duration-300 hover:rotate-12" />
                 </div>
-                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Expert Guidance</h3>
-                <p className="text-muted-foreground">
-                  Get personalized feedback based on calisthenics best practices and expert knowledge.
+                <h3 className="font-heading text-xl font-semibold text-foreground mb-4">AI Form Analysis</h3>
+                <p className="text-foreground/70">
+                  Get instant, precise feedback on your form at every step of your journey. Perfect your technique with
+                  AI-powered analysis.
                 </p>
               </CardContent>
             </Card>
@@ -187,7 +204,7 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="text-center mb-16 fade-in-up animate-in duration-700">
             <h2 className="font-heading text-4xl font-bold text-foreground mb-4">How It Works</h2>
-            <p className="text-xl text-muted-foreground">Get professional feedback in three simple steps</p>
+            <p className="text-xl text-foreground/80">Start your calisthenics journey in three simple steps</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto stagger-children">
@@ -195,9 +212,10 @@ export default function LandingPage() {
               <div className="bg-secondary text-secondary-foreground w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 1
               </div>
-              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Select Movement</h3>
-              <p className="text-muted-foreground">
-                Choose the calisthenics skill you want to analyze from our comprehensive list.
+              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Choose Your Path</h3>
+              <p className="text-foreground/70">
+                Select between Push Static (elbow lever → L-sit → planche) or Pull Static (back lever → front lever)
+                roadmaps.
               </p>
             </div>
 
@@ -205,9 +223,10 @@ export default function LandingPage() {
               <div className="bg-secondary text-secondary-foreground w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 2
               </div>
-              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Upload Photo</h3>
-              <p className="text-muted-foreground">
-                Take a photo of yourself performing the movement and upload it to our platform.
+              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Follow Your Roadmap</h3>
+              <p className="text-foreground/70">
+                Progress through structured milestones, track your improvement, and unlock achievements as you master
+                each skill.
               </p>
             </div>
 
@@ -215,9 +234,9 @@ export default function LandingPage() {
               <div className="bg-secondary text-secondary-foreground w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold transition-all duration-300 hover:scale-110 hover:shadow-lg">
                 3
               </div>
-              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Get Feedback</h3>
-              <p className="text-muted-foreground">
-                Receive detailed analysis and personalized recommendations to improve your form.
+              <h3 className="font-heading text-xl font-semibold text-foreground mb-4">Analyze & Improve</h3>
+              <p className="text-foreground/70">
+                Use our AI form analyzer at each step to get detailed feedback and perfect your technique.
               </p>
             </div>
           </div>
@@ -229,7 +248,7 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="text-center mb-16 fade-in-up animate-in duration-700">
             <h2 className="font-heading text-4xl font-bold text-foreground mb-4">What Athletes Say</h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-foreground/80">
               Join thousands of calisthenics enthusiasts improving their skills
             </p>
           </div>
@@ -245,7 +264,7 @@ export default function LandingPage() {
                     />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-foreground/70 mb-6">
                   "KUZAN helped me perfect my planche form. The AI feedback is incredibly detailed and accurate."
                 </p>
                 <div className="flex items-center">
@@ -270,7 +289,7 @@ export default function LandingPage() {
                     />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-foreground/70 mb-6">
                   "Finally achieved my first handstand thanks to the personalized feedback. Game changer!"
                 </p>
                 <div className="flex items-center">
@@ -295,7 +314,7 @@ export default function LandingPage() {
                     />
                   ))}
                 </div>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-foreground/70 mb-6">
                   "The progress tracking feature keeps me motivated. I can see my improvement over time."
                 </p>
                 <div className="flex items-center">
@@ -318,8 +337,9 @@ export default function LandingPage() {
         <div className="container mx-auto text-center">
           <div className="max-w-3xl mx-auto fade-in-up animate-in duration-700">
             <h2 className="font-heading text-4xl font-bold text-foreground mb-6">Ready to Transform Your Training?</h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Join thousands of athletes who are already improving their calisthenics skills with KUZAN.
+            <p className="text-xl text-foreground/80 mb-8">
+              Join thousands of athletes following structured roadmaps to master advanced calisthenics skills with
+              KUZAN.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -327,8 +347,8 @@ export default function LandingPage() {
                 size="lg"
                 className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg px-8 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl group"
               >
-                <Link href="/analyze">
-                  Start Your Analysis{" "}
+                <Link href="/auth">
+                  Start Your Journey{" "}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -338,7 +358,7 @@ export default function LandingPage() {
                 size="lg"
                 className="text-lg px-8 bg-transparent border-2 border-secondary/30 text-foreground hover:bg-secondary/10 transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
-                <Link href="/auth">Create Free Account</Link>
+                <Link href="/analyze">Try Form Analyzer</Link>
               </Button>
             </div>
           </div>
