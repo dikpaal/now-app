@@ -46,11 +46,13 @@ async def analyze_photo(request: Request):
         processed_image_bytes, landmarks, image_bytes = perform_pose_detection(contents)
         processed_image_base64 = base64.b64encode(processed_image_bytes).decode("utf-8")
         
-        feedback = analyze.analyze(selected_skill, landmarks)
+        analysis_result = analyze.analyze(selected_skill, landmarks)
 
         return JSONResponse(content={
             "processedImage": processed_image_base64,
-            "analysis": feedback,
+            "analysis": analysis_result["feedback"],
+            "score": analysis_result["score_data"]["overall_score"],
+            "scoreData": analysis_result["score_data"],
             "skillLevel": "Beginner+"
         })
 

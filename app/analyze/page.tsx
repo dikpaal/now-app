@@ -2,9 +2,10 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3, Lock } from "lucide-react"
+import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3, Lock, CheckCircle, XCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 import ReactMarkdown from "react-markdown"
 import Image from "next/image"
 import Link from "next/link"
@@ -13,6 +14,14 @@ interface AnalysisResult {
   processedImage: string
   analysis: string
   skillLevel: string
+  score?: number
+  scoreData?: {
+    overall_score: number
+    is_passing: boolean
+    angle_scores: Record<string, any>
+    missing_landmarks: string[]
+    passing_threshold: number
+  }
 }
 
 const skillData = {
@@ -178,6 +187,8 @@ export default function AnalyzePage() {
         processedImage: processedImageUrl,
         analysis: data.analysis,
         skillLevel: data.skillLevel,
+        score: data.score,
+        scoreData: data.scoreData,
       }
 
       setResult(result)
@@ -489,16 +500,78 @@ export default function AnalyzePage() {
                   </div>
                 ) : result ? (
                   <div className="space-y-8">
-                    <div className="flex items-center justify-between p-4 bg-amber-50 rounded-xl border border-amber-200 animate-in fade-in slide-in-from-top-4 duration-700">
+                    {/* Score Display */}
+                    {result.scoreData && (
+                      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-6 animate-in fade-in slide-in-from-top-4 duration-700">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${result.scoreData.is_passing ? 'bg-green-500' : 'bg-amber-500'}`}>
+                              {result.scoreData.is_passing ? (
+                                <CheckCircle className="h-6 w-6 text-white" />
+                              ) : (
+                                <Target className="h-6 w-6 text-white" />
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
+                                Performance Score
+                              </p>
+                              <p className="text-3xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">
+                                {Math.ceil(result.scoreData.overall_score)}%
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${result.scoreData.is_passing ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
+                              {result.scoreData.is_passing ? (
+                                <>
+                                  <CheckCircle className="h-4 w-4" />
+                                  PASSING
+                                </>
+                              ) : (
+                                <>
+                                  <XCircle className="h-4 w-4" />
+                                  NEEDS WORK
+                                </>
+                              )}
+                            </div>
+                            <p className="text-xs text-slate-500 mt-1 font-[family-name:var(--font-inter)]">
+                              Threshold: {result.scoreData.passing_threshold}%
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2 mb-4">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-slate-600 font-medium">Progress to Pass</span>
+                            <span className="text-slate-700 font-bold">{Math.ceil(result.scoreData.overall_score)}/{result.scoreData.passing_threshold}</span>
+                          </div>
+                          <Progress 
+                            value={(result.scoreData.overall_score / result.scoreData.passing_threshold) * 100} 
+                            className="h-3"
+                          />
+                        </div>
+
+                        {result.scoreData.missing_landmarks && result.scoreData.missing_landmarks.length > 0 && (
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                            <p className="text-sm text-red-800 font-medium mb-1">Missing Body Points:</p>
+                            <p className="text-xs text-red-600">{result.scoreData.missing_landmarks.join(', ')}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Skill Level Display */}
+                    <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200 animate-in fade-in slide-in-from-top-4 duration-700 delay-100">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
-                          <Target className="h-5 w-5 text-white" />
+                        <div className="w-10 h-10 bg-stone-600 rounded-lg flex items-center justify-center">
+                          <BarChart3 className="h-5 w-5 text-white" />
                         </div>
                         <div>
                           <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
                             Current Level
                           </p>
-                          <p className="text-xl font-bold text-amber-700 font-[family-name:var(--font-outfit)]">
+                          <p className="text-xl font-bold text-stone-700 font-[family-name:var(--font-outfit)]">
                             {result.skillLevel}
                           </p>
                         </div>

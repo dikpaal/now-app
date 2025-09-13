@@ -1,12 +1,19 @@
 from call_llm import call_llm
 from calculate_angle import calculate_angle
 from skill_rules import SKILL_RULES
+from calculate_skill_score import calculate_skill_score
 
 def analyze(selected_skill, landmarks):
     
     if selected_skill not in SKILL_RULES:
-        return f"Analysis for the skill '{selected_skill}' is not implemented yet."
+        return {
+            "feedback": f"Analysis for the skill '{selected_skill}' is not implemented yet.",
+            "score_data": {"overall_score": 0.0, "is_passing": False}
+        }
 
+    # Calculate skill score
+    score_data = calculate_skill_score(selected_skill, landmarks, SKILL_RULES)
+    
     rules = SKILL_RULES[selected_skill]
     feedback_list = []
 
@@ -37,8 +44,14 @@ def analyze(selected_skill, landmarks):
         
         feedback_list.append(feedback)
         
-    all_feedback = "SKILL NAME: " + selected_skill + "\n\n" + "SHORT ANALYSIS RESULTS:\n\n" + "\n\n".join(feedback_list)
+    # Add score information to feedback
+    score_feedback = f"\n\nSCORE: {score_data['overall_score']}/100 ({'PASSING' if score_data['is_passing'] else 'NEEDS IMPROVEMENT'})"
+    
+    all_feedback = "SKILL NAME: " + selected_skill + "\n\n" + "SHORT ANALYSIS RESULTS:\n\n" + "\n\n".join(feedback_list) + score_feedback
     
     llm_response = call_llm(all_feedback)
 
-    return llm_response
+    return {
+        "feedback": llm_response,
+        "score_data": score_data
+    }
