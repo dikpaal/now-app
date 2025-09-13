@@ -72,6 +72,12 @@ export default function DashboardPage() {
   }, [])
 
   const getRoadmapData = (type: "push" | "pull"): Roadmap => {
+    const savedRoadmap = localStorage.getItem(`roadmap_${type}`)
+    if (savedRoadmap) {
+      return JSON.parse(savedRoadmap)
+    }
+
+    // Return default roadmap data if no saved data exists
     if (type === "push") {
       return {
         id: 1,
@@ -95,56 +101,8 @@ export default function DashboardPage() {
             order_index: 1,
             is_sub_skill: false,
             status: "current",
-            best_score: 75,
-            total_attempts: 12,
-            subSkills: [
-              {
-                id: 11,
-                roadmap_id: 1,
-                name: "elbow_lever_tuck",
-                display_name: "Tuck Elbow Lever",
-                description: "Learn the basic tucked position",
-                icon: "🔥",
-                difficulty_level: "beginner",
-                estimated_weeks: 3,
-                order_index: 1,
-                is_sub_skill: true,
-                parent_skill_id: 1,
-                status: "completed",
-                best_score: 85,
-                total_attempts: 8,
-              },
-              {
-                id: 12,
-                roadmap_id: 1,
-                name: "elbow_lever_advanced_tuck",
-                display_name: "Advanced Tuck",
-                description: "Progress to advanced tuck position",
-                icon: "⚡",
-                difficulty_level: "beginner",
-                estimated_weeks: 3,
-                order_index: 2,
-                is_sub_skill: true,
-                parent_skill_id: 1,
-                status: "current",
-                best_score: 75,
-                total_attempts: 4,
-              },
-              {
-                id: 13,
-                roadmap_id: 1,
-                name: "elbow_lever_straight",
-                display_name: "Straight Elbow Lever",
-                description: "Master the full straight position",
-                icon: "🎯",
-                difficulty_level: "intermediate",
-                estimated_weeks: 2,
-                order_index: 3,
-                is_sub_skill: true,
-                parent_skill_id: 1,
-                status: "locked",
-              },
-            ],
+            best_score: 0,
+            total_attempts: 0,
           },
           {
             id: 2,
@@ -158,50 +116,6 @@ export default function DashboardPage() {
             order_index: 2,
             is_sub_skill: false,
             status: "locked",
-            subSkills: [
-              {
-                id: 21,
-                roadmap_id: 1,
-                name: "l_sit_support",
-                display_name: "Support Hold",
-                description: "Build basic support strength",
-                icon: "💪",
-                difficulty_level: "beginner",
-                estimated_weeks: 4,
-                order_index: 1,
-                is_sub_skill: true,
-                parent_skill_id: 2,
-                status: "locked",
-              },
-              {
-                id: 22,
-                roadmap_id: 1,
-                name: "l_sit_tuck",
-                display_name: "Tuck L-Sit",
-                description: "Progress to tucked L-sit",
-                icon: "🔥",
-                difficulty_level: "intermediate",
-                estimated_weeks: 6,
-                order_index: 2,
-                is_sub_skill: true,
-                parent_skill_id: 2,
-                status: "locked",
-              },
-              {
-                id: 23,
-                roadmap_id: 1,
-                name: "l_sit_full",
-                display_name: "Full L-Sit",
-                description: "Master the complete L-sit",
-                icon: "🎯",
-                difficulty_level: "intermediate",
-                estimated_weeks: 6,
-                order_index: 3,
-                is_sub_skill: true,
-                parent_skill_id: 2,
-                status: "locked",
-              },
-            ],
           },
           {
             id: 3,
@@ -275,7 +189,7 @@ export default function DashboardPage() {
             ],
           },
         ],
-        overallProgress: 25,
+        overallProgress: 0,
       }
     } else {
       return {
@@ -300,8 +214,8 @@ export default function DashboardPage() {
             order_index: 1,
             is_sub_skill: false,
             status: "current",
-            best_score: 60,
-            total_attempts: 6,
+            best_score: 0,
+            total_attempts: 0,
             subSkills: [
               {
                 id: 41,
@@ -316,8 +230,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 4,
                 status: "current",
-                best_score: 60,
-                total_attempts: 6,
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 42,
@@ -435,7 +349,7 @@ export default function DashboardPage() {
             ],
           },
         ],
-        overallProgress: 15,
+        overallProgress: 0,
       }
     }
   }

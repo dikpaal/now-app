@@ -287,7 +287,441 @@ export default function AnalyzePage() {
   }
 
   const handleGoToDashboard = () => {
+    if (result?.scoreData) {
+      updateProgressAndUnlockSkills(result.scoreData.overall_score)
+    }
     router.push("/dashboard")
+  }
+
+  const updateProgressAndUnlockSkills = (newScore: number) => {
+    // Get current skill info from URL params
+    const urlParams = new URLSearchParams(window.location.search)
+    const skillParam = urlParams.get("skill")
+
+    if (!skillParam) return
+
+    // Get current roadmap data
+    const currentSkillType = localStorage.getItem("selectedSkillType") as "push" | "pull" | null
+    if (!currentSkillType) return
+
+    const roadmapData = getRoadmapData(currentSkillType)
+
+    // Find the current skill and update its best score
+    const updatedRoadmap = updateSkillScore(roadmapData, skillParam, newScore)
+
+    // If score is passing (≥65%), unlock next skill
+    if (newScore >= 65) {
+      unlockNextSkill(updatedRoadmap, skillParam)
+    }
+
+    // Save updated roadmap to localStorage
+    localStorage.setItem(`roadmap_${currentSkillType}`, JSON.stringify(updatedRoadmap))
+  }
+
+  const getRoadmapData = (type: "push" | "pull") => {
+    // Try to get saved roadmap first, otherwise use default
+    const savedRoadmap = localStorage.getItem(`roadmap_${type}`)
+    if (savedRoadmap) {
+      return JSON.parse(savedRoadmap)
+    }
+
+    // Return default roadmap data (same as dashboard)
+    if (type === "push") {
+      return {
+        id: 1,
+        name: "push_static",
+        display_name: "Push Static Mastery",
+        description: "Build incredible pushing strength through progressive static holds",
+        total_weeks: 52,
+        color_from: "#c17b5a",
+        color_to: "#7a8471",
+        current_skill_id: 1,
+        skills: [
+          {
+            id: 1,
+            roadmap_id: 1,
+            name: "elbow_lever",
+            display_name: "Elbow Lever",
+            description: "Master the foundation of arm balancing with proper elbow placement",
+            icon: "💪",
+            difficulty_level: "beginner",
+            estimated_weeks: 8,
+            order_index: 1,
+            is_sub_skill: false,
+            status: "current",
+            best_score: 0,
+            total_attempts: 0,
+          },
+          {
+            id: 2,
+            roadmap_id: 1,
+            name: "l_sit",
+            display_name: "L-Sit",
+            description: "Develop core strength and control with perfect L-sit form",
+            icon: "🔥",
+            difficulty_level: "intermediate",
+            estimated_weeks: 16,
+            order_index: 2,
+            is_sub_skill: false,
+            status: "locked",
+          },
+          {
+            id: 3,
+            roadmap_id: 1,
+            name: "planche",
+            display_name: "Planche",
+            description: "The ultimate pushing static hold - the pinnacle of upper body strength",
+            icon: "👑",
+            difficulty_level: "advanced",
+            estimated_weeks: 28,
+            order_index: 3,
+            is_sub_skill: false,
+            status: "locked",
+            subSkills: [
+              {
+                id: 31,
+                roadmap_id: 1,
+                name: "planche_tuck",
+                display_name: "Tuck Planche",
+                description: "Master the tuck planche position",
+                icon: "🔥",
+                difficulty_level: "intermediate",
+                estimated_weeks: 8,
+                order_index: 1,
+                is_sub_skill: true,
+                parent_skill_id: 3,
+                status: "locked",
+              },
+              {
+                id: 32,
+                roadmap_id: 1,
+                name: "planche_advanced_tuck",
+                display_name: "Advanced Tuck Planche",
+                description: "Progress to advanced tuck planche",
+                icon: "⚡",
+                difficulty_level: "advanced",
+                estimated_weeks: 7,
+                order_index: 2,
+                is_sub_skill: true,
+                parent_skill_id: 3,
+                status: "locked",
+              },
+              {
+                id: 33,
+                roadmap_id: 1,
+                name: "planche_straddle",
+                display_name: "Straddle Planche",
+                description: "Master the straddle planche",
+                icon: "🎯",
+                difficulty_level: "advanced",
+                estimated_weeks: 7,
+                order_index: 3,
+                is_sub_skill: true,
+                parent_skill_id: 3,
+                status: "locked",
+              },
+              {
+                id: 34,
+                roadmap_id: 1,
+                name: "planche_full",
+                display_name: "Full Planche",
+                description: "The ultimate planche achievement",
+                icon: "👑",
+                difficulty_level: "advanced",
+                estimated_weeks: 6,
+                order_index: 4,
+                is_sub_skill: true,
+                parent_skill_id: 3,
+                status: "locked",
+              },
+            ],
+          },
+        ],
+        overallProgress: 0,
+      }
+    } else {
+      return {
+        id: 2,
+        name: "pull_static",
+        display_name: "Pull Static Mastery",
+        description: "Develop incredible pulling strength and back control",
+        total_weeks: 36,
+        color_from: "#7a8471",
+        color_to: "#c17b5a",
+        current_skill_id: 4,
+        skills: [
+          {
+            id: 4,
+            roadmap_id: 2,
+            name: "back_lever",
+            display_name: "Back Lever",
+            description: "Build posterior chain strength and control",
+            icon: "💪",
+            difficulty_level: "intermediate",
+            estimated_weeks: 16,
+            order_index: 1,
+            is_sub_skill: false,
+            status: "locked",
+            subSkills: [
+              {
+                id: 41,
+                roadmap_id: 2,
+                name: "back_lever_tuck",
+                display_name: "Tuck Back Lever",
+                description: "Learn the basic tucked position",
+                icon: "🔥",
+                difficulty_level: "intermediate",
+                estimated_weeks: 4,
+                order_index: 1,
+                is_sub_skill: true,
+                parent_skill_id: 4,
+                status: "locked",
+              },
+              {
+                id: 42,
+                roadmap_id: 2,
+                name: "back_lever_advanced_tuck",
+                display_name: "Advanced Tuck Back Lever",
+                description: "Progress to advanced tuck back lever",
+                icon: "⚡",
+                difficulty_level: "intermediate",
+                estimated_weeks: 4,
+                order_index: 2,
+                is_sub_skill: true,
+                parent_skill_id: 4,
+                status: "locked",
+              },
+              {
+                id: 43,
+                roadmap_id: 2,
+                name: "back_lever_straddle",
+                display_name: "Straddle Back Lever",
+                description: "Master the straddle back lever",
+                icon: "🎯",
+                difficulty_level: "advanced",
+                estimated_weeks: 4,
+                order_index: 3,
+                is_sub_skill: true,
+                parent_skill_id: 4,
+                status: "locked",
+              },
+              {
+                id: 44,
+                roadmap_id: 2,
+                name: "back_lever_full",
+                display_name: "Full Back Lever",
+                description: "Master the complete back lever",
+                icon: "👑",
+                difficulty_level: "advanced",
+                estimated_weeks: 4,
+                order_index: 4,
+                is_sub_skill: true,
+                parent_skill_id: 4,
+                status: "locked",
+              },
+            ],
+          },
+          {
+            id: 5,
+            roadmap_id: 2,
+            name: "front_lever",
+            display_name: "Front Lever",
+            description: "Master the ultimate pulling static hold",
+            icon: "👑",
+            difficulty_level: "advanced",
+            estimated_weeks: 20,
+            order_index: 2,
+            is_sub_skill: false,
+            status: "locked",
+            subSkills: [
+              {
+                id: 51,
+                roadmap_id: 2,
+                name: "front_lever_tuck",
+                display_name: "Tuck Front Lever",
+                description: "Learn the basic tucked position",
+                icon: "🔥",
+                difficulty_level: "advanced",
+                estimated_weeks: 5,
+                order_index: 1,
+                is_sub_skill: true,
+                parent_skill_id: 5,
+                status: "locked",
+              },
+              {
+                id: 52,
+                roadmap_id: 2,
+                name: "front_lever_advanced_tuck",
+                display_name: "Advanced Tuck Front Lever",
+                description: "Progress to advanced tuck front lever",
+                icon: "⚡",
+                difficulty_level: "advanced",
+                estimated_weeks: 5,
+                order_index: 2,
+                is_sub_skill: true,
+                parent_skill_id: 5,
+                status: "locked",
+              },
+              {
+                id: 53,
+                roadmap_id: 2,
+                name: "front_lever_straddle",
+                display_name: "Straddle Front Lever",
+                description: "Master the straddle front lever",
+                icon: "🎯",
+                difficulty_level: "advanced",
+                estimated_weeks: 5,
+                order_index: 3,
+                is_sub_skill: true,
+                parent_skill_id: 5,
+                status: "locked",
+              },
+              {
+                id: 54,
+                roadmap_id: 2,
+                name: "front_lever_full",
+                display_name: "Full Front Lever",
+                description: "The ultimate pulling achievement",
+                icon: "👑",
+                difficulty_level: "advanced",
+                estimated_weeks: 5,
+                order_index: 4,
+                is_sub_skill: true,
+                parent_skill_id: 5,
+                status: "locked",
+              },
+            ],
+          },
+        ],
+        overallProgress: 0,
+      }
+    }
+  }
+
+  const updateSkillScore = (roadmap: any, skillParam: string, newScore: number) => {
+    const updatedRoadmap = { ...roadmap }
+
+    // Find and update the skill
+    for (const skill of updatedRoadmap.skills) {
+      // Check main skills
+      if (skill.name === skillParam) {
+        skill.best_score = Math.max(skill.best_score || 0, newScore)
+        skill.total_attempts = (skill.total_attempts || 0) + 1
+        if (newScore >= 65) {
+          skill.status = "completed"
+        }
+        break
+      }
+
+      // Check sub-skills
+      if (skill.subSkills) {
+        for (const subSkill of skill.subSkills) {
+          if (subSkill.name === skillParam) {
+            subSkill.best_score = Math.max(subSkill.best_score || 0, newScore)
+            subSkill.total_attempts = (subSkill.total_attempts || 0) + 1
+            if (newScore >= 65) {
+              subSkill.status = "completed"
+            }
+            break
+          }
+        }
+      }
+    }
+
+    // Update overall progress
+    updatedRoadmap.overallProgress = calculateOverallProgress(updatedRoadmap)
+
+    return updatedRoadmap
+  }
+
+  const unlockNextSkill = (roadmap: any, currentSkillParam: string) => {
+    // Define skill progression sequences
+    const pushSequence = [
+      "elbow_lever",
+      "l_sit",
+      "planche_tuck",
+      "planche_advanced_tuck",
+      "planche_straddle",
+      "planche_full",
+    ]
+
+    const pullSequences = {
+      back_lever: ["back_lever_tuck", "back_lever_advanced_tuck", "back_lever_straddle", "back_lever_full"],
+      front_lever: ["front_lever_tuck", "front_lever_advanced_tuck", "front_lever_straddle", "front_lever_full"],
+    }
+
+    // Find current skill index and unlock next
+    if (roadmap.name === "push_static") {
+      const currentIndex = pushSequence.indexOf(currentSkillParam)
+      if (currentIndex !== -1 && currentIndex < pushSequence.length - 1) {
+        const nextSkillName = pushSequence[currentIndex + 1]
+        unlockSkillByName(roadmap, nextSkillName)
+      }
+    } else if (roadmap.name === "pull_static") {
+      // Handle back lever sequence
+      if (pullSequences.back_lever.includes(currentSkillParam)) {
+        const currentIndex = pullSequences.back_lever.indexOf(currentSkillParam)
+        if (currentIndex !== -1 && currentIndex < pullSequences.back_lever.length - 1) {
+          const nextSkillName = pullSequences.back_lever[currentIndex + 1]
+          unlockSkillByName(roadmap, nextSkillName)
+        } else if (currentIndex === pullSequences.back_lever.length - 1) {
+          // Completed back lever sequence, unlock front lever
+          unlockSkillByName(roadmap, "front_lever_tuck")
+        }
+      }
+
+      // Handle front lever sequence
+      if (pullSequences.front_lever.includes(currentSkillParam)) {
+        const currentIndex = pullSequences.front_lever.indexOf(currentSkillParam)
+        if (currentIndex !== -1 && currentIndex < pullSequences.front_lever.length - 1) {
+          const nextSkillName = pullSequences.front_lever[currentIndex + 1]
+          unlockSkillByName(roadmap, nextSkillName)
+        }
+      }
+    }
+  }
+
+  const unlockSkillByName = (roadmap: any, skillName: string) => {
+    for (const skill of roadmap.skills) {
+      // Check main skills
+      if (skill.name === skillName) {
+        skill.status = "current"
+        return
+      }
+
+      // Check sub-skills
+      if (skill.subSkills) {
+        for (const subSkill of skill.subSkills) {
+          if (subSkill.name === skillName) {
+            subSkill.status = "current"
+            // Also unlock parent skill if it's locked
+            if (skill.status === "locked") {
+              skill.status = "current"
+            }
+            return
+          }
+        }
+      }
+    }
+  }
+
+  const calculateOverallProgress = (roadmap: any) => {
+    let totalSkills = 0
+    let completedSkills = 0
+
+    for (const skill of roadmap.skills) {
+      if (skill.subSkills && skill.subSkills.length > 0) {
+        // Count sub-skills
+        totalSkills += skill.subSkills.length
+        completedSkills += skill.subSkills.filter((s: any) => s.status === "completed").length
+      } else {
+        // Count main skill
+        totalSkills += 1
+        if (skill.status === "completed") completedSkills += 1
+      }
+    }
+
+    return totalSkills > 0 ? Math.round((completedSkills / totalSkills) * 100) : 0
   }
 
   return (
@@ -321,7 +755,7 @@ export default function AnalyzePage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <Link
-                href="/"
+                href="/dashboard"
                 className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors duration-200"
               >
                 <ArrowLeft className="h-5 w-5" />
