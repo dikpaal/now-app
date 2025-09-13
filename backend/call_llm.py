@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from dotenv import load_dotenv
 
-from .analyze import SKILL_RULES
+from skill_rules import SKILL_RULES
 
 SYSTEM_INSTRUCTIONS = """
 You are FRIEND, an expert AI Calisthenics and Bodyweight Fitness Coach with deep knowledge of biomechanics, progressive training, and injury prevention. Your primary goal is to provide safe, encouraging, and highly personalized form feedback to users by interpreting calculated joint angles from their exercise performance.
