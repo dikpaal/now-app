@@ -1,3 +1,5 @@
+from calculate_angle import calculate_angle
+
 SKILL_RULES = {
     "planche_lean": {
         "angles_to_check": [
