@@ -7,6 +7,14 @@ SKILL_RULES = {
             {"name": "Leg Position", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 160, "max": 180},
         ]
     },
+    "l_sit": {
+        "angles_to_check": [
+            {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 15, "max": 30},
+            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 165, "max": 190},
+            {"name": "Hip Angle", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 50, "max": 70},
+            {"name": "Leg Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 160, "max": 190},
+        ]
+    },
     "planche_lean": {
         "angles_to_check": [
             {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 30, "max": 80},
@@ -80,10 +88,10 @@ SKILL_RULES = {
     },
     "tuck_back_lever": {
         "angles_to_check": [
-            {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 120, "max": 160},
-            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 175, "max": 180},
+            {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 30, "max": 60},
+            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 160, "max": 190},
             {"name": "Hip Angle", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 30, "max": 60},
-            {"name": "Knee Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 30, "max": 60},
+            {"name": "Knee Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 30, "max": 70},
         ]
     },
     "advanced_tuck_back_lever": {
@@ -110,12 +118,4 @@ SKILL_RULES = {
             {"name": "Knee Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 175, "max": 180},
         ]
     },
-    "l_sit": {
-        "angles_to_check": [
-            {"name": "Shoulder Angle", "points": ["LEFT_ELBOW", "LEFT_SHOULDER", "LEFT_HIP"], "min": 15, "max": 30},
-            {"name": "Elbow Angle", "points": ["LEFT_SHOULDER", "LEFT_ELBOW", "LEFT_WRIST"], "min": 165, "max": 190},
-            {"name": "Hip Angle", "points": ["LEFT_SHOULDER", "LEFT_HIP", "LEFT_KNEE"], "min": 50, "max": 70},
-            {"name": "Leg Angle", "points": ["LEFT_HIP", "LEFT_KNEE", "LEFT_ANKLE"], "min": 160, "max": 190},
-        ]
-    }
 }
