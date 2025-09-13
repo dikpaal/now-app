@@ -218,6 +218,11 @@ export default function AnalyzePage() {
       }
 
       setResult(result)
+
+      // Automatically save progress if score is passing
+      if (result.scoreData?.is_passing && result.scoreData.overall_score >= 65) {
+        updateProgressAndUnlockSkills(result.scoreData.overall_score)
+      }
     } catch (error) {
       console.error("Error analyzing image:", error)
       const errorResult: AnalysisResult = {
@@ -364,6 +369,8 @@ export default function AnalyzePage() {
             order_index: 2,
             is_sub_skill: false,
             status: "locked",
+            best_score: 0,
+            total_attempts: 0,
           },
           {
             id: 3,
@@ -461,7 +468,7 @@ export default function AnalyzePage() {
             estimated_weeks: 16,
             order_index: 1,
             is_sub_skill: false,
-            status: "locked",
+            status: "current",
             subSkills: [
               {
                 id: 41,
@@ -475,7 +482,7 @@ export default function AnalyzePage() {
                 order_index: 1,
                 is_sub_skill: true,
                 parent_skill_id: 4,
-                status: "locked",
+                status: "current",
               },
               {
                 id: 42,

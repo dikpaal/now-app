@@ -117,7 +117,7 @@ export default function DashboardPage() {
             estimated_weeks: 16,
             order_index: 2,
             is_sub_skill: false,
-            status: "locked",
+            status: "current",
             best_score: 0,
             total_attempts: 0,
           },
