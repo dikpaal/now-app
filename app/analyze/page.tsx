@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -58,6 +58,55 @@ export default function AnalyzePage() {
   const [selectedVariation, setSelectedVariation] = useState<string>("")
   const [showSkillDropdown, setShowSkillDropdown] = useState(false)
   const [showVariationDropdown, setShowVariationDropdown] = useState(false)
+  const [isLocked, setIsLocked] = useState(false)
+  const [lockedSkillName, setLockedSkillName] = useState<string>("")
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const skillParam = urlParams.get("skill")
+    const skillNameParam = urlParams.get("skillName")
+    const lockedParam = urlParams.get("locked")
+
+    if (lockedParam === "true" && skillParam && skillNameParam) {
+      setIsLocked(true)
+      setLockedSkillName(skillNameParam)
+
+      if (skillParam.includes("planche")) {
+        setSelectedSkill("planche")
+        if (skillParam.includes("tuck")) {
+          setSelectedVariation("tuck-planche")
+        } else if (skillParam.includes("advanced_tuck")) {
+          setSelectedVariation("advanced-tuck-planche")
+        } else if (skillParam.includes("straddle")) {
+          setSelectedVariation("straddle-planche")
+        } else if (skillParam.includes("full")) {
+          setSelectedVariation("full-planche")
+        }
+      } else if (skillParam.includes("back_lever")) {
+        setSelectedSkill("back-lever")
+        if (skillParam.includes("tuck")) {
+          setSelectedVariation("tuck-back-lever")
+        } else if (skillParam.includes("advanced_tuck")) {
+          setSelectedVariation("advanced-tuck-back-lever")
+        } else if (skillParam.includes("straddle")) {
+          setSelectedVariation("straddle-back-lever")
+        } else if (skillParam.includes("full")) {
+          setSelectedVariation("full-back-lever")
+        }
+      } else if (skillParam.includes("front_lever")) {
+        setSelectedSkill("front-lever")
+        if (skillParam.includes("tuck")) {
+          setSelectedVariation("tuck-front-lever")
+        } else if (skillParam.includes("advanced_tuck")) {
+          setSelectedVariation("advanced-tuck-front-lever")
+        } else if (skillParam.includes("straddle")) {
+          setSelectedVariation("straddle-front-lever")
+        } else if (skillParam.includes("full")) {
+          setSelectedVariation("full-front-lever")
+        }
+      }
+    }
+  }, [])
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file)
@@ -190,18 +239,23 @@ export default function AnalyzePage() {
                 <div className="space-y-4">
                   <div className="relative">
                     <button
-                      onClick={() => setShowSkillDropdown(!showSkillDropdown)}
-                      className="w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white hover:border-amber-300 transition-all duration-300 shadow-sm hover:shadow-md"
+                      onClick={() => !isLocked && setShowSkillDropdown(!showSkillDropdown)}
+                      disabled={isLocked}
+                      className={`w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white transition-all duration-300 shadow-sm ${
+                        isLocked ? "cursor-not-allowed opacity-60" : "hover:border-amber-300 hover:shadow-md"
+                      }`}
                     >
                       <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
-                        {selectedSkill
-                          ? skillData[selectedSkill as keyof typeof skillData].name
-                          : "Choose Movement Type"}
+                        {isLocked && lockedSkillName
+                          ? lockedSkillName
+                          : selectedSkill
+                            ? skillData[selectedSkill as keyof typeof skillData].name
+                            : "Choose Movement Type"}
                       </span>
-                      <ChevronDown className="h-4 w-4 text-slate-500" />
+                      <ChevronDown className={`h-4 w-4 text-slate-500 ${isLocked ? "opacity-50" : ""}`} />
                     </button>
 
-                    {showSkillDropdown && (
+                    {showSkillDropdown && !isLocked && (
                       <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-stone-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
                         {Object.entries(skillData).map(([key, skill]) => (
                           <button
@@ -219,8 +273,11 @@ export default function AnalyzePage() {
                   {selectedSkill && (
                     <div className="relative">
                       <button
-                        onClick={() => setShowVariationDropdown(!showVariationDropdown)}
-                        className="w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white hover:border-amber-300 transition-all duration-300 shadow-sm hover:shadow-md"
+                        onClick={() => !isLocked && setShowVariationDropdown(!showVariationDropdown)}
+                        disabled={isLocked}
+                        className={`w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white transition-all duration-300 shadow-sm ${
+                          isLocked ? "cursor-not-allowed opacity-60" : "hover:border-amber-300 hover:shadow-md"
+                        }`}
                       >
                         <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
                           {selectedVariation
@@ -229,10 +286,10 @@ export default function AnalyzePage() {
                               )?.name
                             : "Choose Progression Level"}
                         </span>
-                        <ChevronDown className="h-4 w-4 text-slate-500" />
+                        <ChevronDown className={`h-4 w-4 text-slate-500 ${isLocked ? "opacity-50" : ""}`} />
                       </button>
 
-                      {showVariationDropdown && (
+                      {showVariationDropdown && !isLocked && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-stone-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
                           {skillData[selectedSkill as keyof typeof skillData].variations.map((variation) => (
                             <button
@@ -245,6 +302,13 @@ export default function AnalyzePage() {
                           ))}
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {isLocked && (
+                    <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                      <Target className="h-4 w-4 text-amber-600" />
+                      <span className="text-sm text-amber-700 font-medium">Analyzing: {lockedSkillName}</span>
                     </div>
                   )}
                 </div>

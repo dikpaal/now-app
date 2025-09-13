@@ -692,7 +692,9 @@ export default function DashboardPage() {
                             </div>
                             <div className="flex items-center gap-2">
                               {subSkill.status !== "locked" && (
-                                <Link href="/analyze">
+                                <Link
+                                  href={`/analyze?skill=${subSkill.name}&skillName=${encodeURIComponent(subSkill.display_name)}&locked=true`}
+                                >
                                   <Button size="sm" variant="outline" className="bg-transparent">
                                     Practice
                                   </Button>
@@ -707,7 +709,10 @@ export default function DashboardPage() {
                     {/* Action Buttons */}
                     <div className="flex gap-2">
                       {skill.status !== "locked" && (
-                        <Link href="/analyze" className="flex-1">
+                        <Link
+                          href={`/analyze?skill=${skill.name}&skillName=${encodeURIComponent(skill.display_name)}&locked=true`}
+                          className="flex-1"
+                        >
                           <Button className="w-full" size="sm">
                             Analyze Form
                           </Button>
