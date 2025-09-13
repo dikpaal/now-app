@@ -47,6 +47,16 @@ const skillData = {
       { id: "full-back-lever", name: "Full back-lever" },
     ],
   },
+  "elbow-lever": {
+    id: "elbow-lever",
+    name: "Elbow Lever",
+    variations: [],
+  },
+  "l-sit": {
+    id: "l-sit",
+    name: "L-Sit",
+    variations: [],
+  },
 }
 
 export default function AnalyzePage() {
@@ -71,7 +81,10 @@ export default function AnalyzePage() {
       setIsLocked(true)
       setLockedSkillName(skillNameParam)
 
-      if (skillParam.includes("planche")) {
+      if (skillParam === "elbow_lever" || skillParam === "l_sit") {
+        setSelectedSkill(skillParam)
+        setSelectedVariation(skillParam)
+      } else if (skillParam.includes("planche")) {
         setSelectedSkill("planche")
         if (skillParam.includes("tuck")) {
           setSelectedVariation("tuck-planche")
@@ -138,19 +151,48 @@ export default function AnalyzePage() {
   }
 
   const analyzeSkill = async () => {
-    if (!selectedFile) return
+    if (!selectedFile || (!selectedVariation && !isLocked)) return
 
     setIsProcessing(true)
 
-    setTimeout(() => {
-      const mockResult: AnalysisResult = {
-        processedImage: "/analyzed-calisthenics-movement.jpg",
-        analysis: `## Form Analysis\n\n**Overall Assessment:** Good foundation with room for improvement.\n\n### Strengths:\n- Proper hand placement\n- Good core engagement\n- Stable base position\n\n### Areas for Improvement:\n- **Alignment**: Keep your body in a straight line\n- **Breathing**: Remember to breathe consistently\n- **Progression**: Try holding for 5-10 seconds longer\n\n### Next Steps:\n1. Practice wall-supported variations\n2. Focus on slow, controlled movements\n3. Record yourself from different angles`,
-        skillLevel: "Intermediate",
+    try {
+      const formData = new FormData()
+      formData.append("file", selectedFile)
+      formData.append("skill_id", selectedVariation || selectedSkill)
+
+      const response = await fetch("http://localhost:8000/analyze", {
+        method: "POST",
+        body: formData,
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
-      setResult(mockResult)
+
+      const data = await response.json()
+
+      // Convert base64 image to data URL for display
+      const processedImageUrl = `data:image/jpeg;base64,${data.processedImage}`
+
+      const result: AnalysisResult = {
+        processedImage: processedImageUrl,
+        analysis: data.analysis,
+        skillLevel: data.skillLevel,
+      }
+
+      setResult(result)
+    } catch (error) {
+      console.error("Error analyzing image:", error)
+      // Fallback to show error message
+      const errorResult: AnalysisResult = {
+        processedImage: previewUrl || "",
+        analysis: `## Analysis Error\n\nSorry, we encountered an error while analyzing your movement. Please try again.\n\n**Error details:** ${error instanceof Error ? error.message : "Unknown error"}\n\n### Troubleshooting:\n- Make sure the Python API server is running on localhost:8000\n- Check your internet connection\n- Try uploading a different image`,
+        skillLevel: "Error",
+      }
+      setResult(errorResult)
+    } finally {
       setIsProcessing(false)
-    }, 2000)
+    }
   }
 
   const resetAnalysis = () => {
@@ -277,7 +319,7 @@ export default function AnalyzePage() {
                     )}
                   </div>
 
-                  {selectedSkill && (
+                  {selectedSkill && skillData[selectedSkill as keyof typeof skillData]?.variations?.length > 0 && (
                     <div className="relative">
                       <button
                         onClick={() => !isLocked && setShowVariationDropdown(!showVariationDropdown)}
@@ -294,9 +336,9 @@ export default function AnalyzePage() {
                             className={`font-medium font-[family-name:var(--font-inter)] ${isLocked ? "text-stone-500" : "text-slate-700"}`}
                           >
                             {selectedVariation
-                              ? skillData[selectedSkill as keyof typeof skillData].variations.find(
+                              ? skillData[selectedSkill as keyof typeof skillData]?.variations?.find(
                                   (v) => v.id === selectedVariation,
-                                )?.name
+                                )?.name || "Unknown variation"
                               : "Choose Progression Level"}
                           </span>
                         </div>
@@ -305,7 +347,7 @@ export default function AnalyzePage() {
 
                       {showVariationDropdown && !isLocked && (
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-stone-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
-                          {skillData[selectedSkill as keyof typeof skillData].variations.map((variation) => (
+                          {skillData[selectedSkill as keyof typeof skillData]?.variations?.map((variation) => (
                             <button
                               key={variation.id}
                               onClick={() => handleVariationSelect(variation.id)}
@@ -313,7 +355,7 @@ export default function AnalyzePage() {
                             >
                               {variation.name}
                             </button>
-                          ))}
+                          )) || []}
                         </div>
                       )}
                     </div>
@@ -381,12 +423,24 @@ export default function AnalyzePage() {
                     <div className="space-y-3">
                       <Button
                         onClick={analyzeSkill}
-                        disabled={isProcessing}
+                        disabled={
+                          isProcessing ||
+                          (!selectedVariation &&
+                            !isLocked &&
+                            skillData[selectedSkill as keyof typeof skillData]?.variations?.length > 0)
+                        }
                         size="sm"
-                        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg font-[family-name:var(--font-outfit)] transition-all duration-300"
+                        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg font-[family-name:var(--font-outfit)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isProcessing ? "Analyzing..." : "Analyze Movement"}
                       </Button>
+                      {!selectedVariation &&
+                        !isLocked &&
+                        skillData[selectedSkill as keyof typeof skillData]?.variations?.length > 0 && (
+                          <p className="text-xs text-amber-600 text-center font-medium">
+                            Please select a movement variation first
+                          </p>
+                        )}
                       <input
                         type="file"
                         accept="image/*"

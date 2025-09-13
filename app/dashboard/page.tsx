@@ -579,9 +579,10 @@ export default function DashboardPage() {
         <div className="space-y-6">
           {roadmap.skills.map((skill, index) => (
             <Card key={skill.id} className="group hover:shadow-lg transition-all duration-300">
-              <Collapsible open={expandedSkills.has(skill.id)} onOpenChange={() => toggleSkillExpansion(skill.id)}>
-                <CollapsibleTrigger asChild>
-                  <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+              {skill.name === "elbow_lever" || skill.name === "l_sit" ? (
+                // Standalone skill card without collapsible
+                <>
+                  <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div className="text-2xl">{skill.icon}</div>
@@ -596,8 +597,6 @@ export default function DashboardPage() {
                           <CardDescription>{skill.description}</CardDescription>
                           <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                             <span>{skill.estimated_weeks} weeks</span>
-                            <span>·</span>
-                            <span>{skill.subSkills?.length || 0} sub-skills</span>
                             {skill.best_score && (
                               <>
                                 <span>·</span>
@@ -613,99 +612,15 @@ export default function DashboardPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-primary mb-1">
-                            {skill.subSkills
-                              ? Math.round(
-                                  (skill.subSkills.filter((s) => s.status === "completed").length /
-                                    skill.subSkills.length) *
-                                    100,
-                                )
-                              : skill.status === "completed"
-                                ? 100
-                                : skill.status === "current"
-                                  ? 50
-                                  : 0}
-                            %
-                          </div>
-                          <div className="text-sm text-muted-foreground">Progress</div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-primary mb-1">
+                          {skill.status === "completed" ? 100 : skill.status === "current" ? 50 : 0}%
                         </div>
-                        <div className="flex items-center gap-2">
-                          {skill.subSkills && skill.subSkills.length > 0 && (
-                            <Badge variant="outline" className="text-xs">
-                              {skill.subSkills.length} steps
-                            </Badge>
-                          )}
-                          {expandedSkills.has(skill.id) ? (
-                            <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                          ) : (
-                            <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                          )}
-                        </div>
+                        <div className="text-sm text-muted-foreground">Progress</div>
                       </div>
                     </div>
                   </CardHeader>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent>
-                  <CardContent className="pt-0">
-                    {/* Sub-skills */}
-                    {skill.subSkills && skill.subSkills.length > 0 && (
-                      <div className="space-y-3 mb-6">
-                        <h4 className="font-medium text-foreground mb-3">Progression Steps:</h4>
-                        {skill.subSkills.map((subSkill, subIndex) => (
-                          <div
-                            key={subSkill.id}
-                            className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50"
-                          >
-                            <div className="flex items-center gap-4">
-                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-medium text-sm">
-                                {subIndex + 1}
-                              </div>
-                              <div className="text-lg">{subSkill.icon}</div>
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <span className="font-medium text-foreground">{subSkill.display_name}</span>
-                                  <Badge variant="outline" className="text-xs">
-                                    {subSkill.difficulty_level}
-                                  </Badge>
-                                  {getStatusIcon(subSkill.status)}
-                                </div>
-                                <p className="text-sm text-muted-foreground">{subSkill.description}</p>
-                                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                                  <span>{subSkill.estimated_weeks} weeks</span>
-                                  {subSkill.best_score && (
-                                    <>
-                                      <span>·</span>
-                                      <span>Best: {subSkill.best_score}%</span>
-                                    </>
-                                  )}
-                                  {subSkill.total_attempts && (
-                                    <>
-                                      <span>·</span>
-                                      <span>{subSkill.total_attempts} attempts</span>
-                                    </>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {subSkill.status !== "locked" && (
-                                <Link
-                                  href={`/analyze?skill=${subSkill.name}&skillName=${encodeURIComponent(subSkill.display_name)}&locked=true`}
-                                >
-                                  <Button size="sm" variant="outline" className="bg-transparent">
-                                    Practice
-                                  </Button>
-                                </Link>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
+                  <CardContent>
                     {/* Action Buttons */}
                     <div className="flex gap-2">
                       {skill.status !== "locked" && (
@@ -726,8 +641,161 @@ export default function DashboardPage() {
                       </Button>
                     </div>
                   </CardContent>
-                </CollapsibleContent>
-              </Collapsible>
+                </>
+              ) : (
+                // Keep planche with collapsible dropdown
+                <Collapsible open={expandedSkills.has(skill.id)} onOpenChange={() => toggleSkillExpansion(skill.id)}>
+                  <CollapsibleTrigger asChild>
+                    <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="text-2xl">{skill.icon}</div>
+                          <div>
+                            <div className="flex items-center gap-3 mb-2">
+                              <CardTitle className="font-heading text-xl text-foreground">
+                                {skill.display_name}
+                              </CardTitle>
+                              <Badge className={getDifficultyColor(skill.difficulty_level)}>
+                                {skill.difficulty_level}
+                              </Badge>
+                              {getStatusIcon(skill.status)}
+                            </div>
+                            <CardDescription>{skill.description}</CardDescription>
+                            <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                              <span>{skill.estimated_weeks} weeks</span>
+                              <span>·</span>
+                              <span>{skill.subSkills?.length || 0} sub-skills</span>
+                              {skill.best_score && (
+                                <>
+                                  <span>·</span>
+                                  <span>Best: {skill.best_score}%</span>
+                                </>
+                              )}
+                              {skill.total_attempts && (
+                                <>
+                                  <span>·</span>
+                                  <span>{skill.total_attempts} attempts</span>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-primary mb-1">
+                              {skill.subSkills
+                                ? Math.round(
+                                    (skill.subSkills.filter((s) => s.status === "completed").length /
+                                      skill.subSkills.length) *
+                                      100,
+                                  )
+                                : skill.status === "completed"
+                                  ? 100
+                                  : skill.status === "current"
+                                    ? 50
+                                    : 0}
+                              %
+                            </div>
+                            <div className="text-sm text-muted-foreground">Progress</div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {skill.subSkills && skill.subSkills.length > 0 && (
+                              <Badge variant="outline" className="text-xs">
+                                {skill.subSkills.length} steps
+                              </Badge>
+                            )}
+                            {expandedSkills.has(skill.id) ? (
+                              <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                            ) : (
+                              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <CardContent className="pt-0">
+                      {/* Sub-skills */}
+                      {skill.subSkills && skill.subSkills.length > 0 && (
+                        <div className="space-y-3 mb-6">
+                          <h4 className="font-medium text-foreground mb-3">Progression Steps:</h4>
+                          {skill.subSkills.map((subSkill, subIndex) => (
+                            <div
+                              key={subSkill.id}
+                              className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50"
+                            >
+                              <div className="flex items-center gap-4">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-medium text-sm">
+                                  {subIndex + 1}
+                                </div>
+                                <div className="text-lg">{subSkill.icon}</div>
+                                <div>
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="font-medium text-foreground">{subSkill.display_name}</span>
+                                    <Badge variant="outline" className="text-xs">
+                                      {subSkill.difficulty_level}
+                                    </Badge>
+                                    {getStatusIcon(subSkill.status)}
+                                  </div>
+                                  <p className="text-sm text-muted-foreground">{subSkill.description}</p>
+                                  <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                                    <span>{subSkill.estimated_weeks} weeks</span>
+                                    {subSkill.best_score && (
+                                      <>
+                                        <span>·</span>
+                                        <span>Best: {subSkill.best_score}%</span>
+                                      </>
+                                    )}
+                                    {subSkill.total_attempts && (
+                                      <>
+                                        <span>·</span>
+                                        <span>{subSkill.total_attempts} attempts</span>
+                                      </>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                {subSkill.status !== "locked" && (
+                                  <Link
+                                    href={`/analyze?skill=${subSkill.name}&skillName=${encodeURIComponent(subSkill.display_name)}&locked=true`}
+                                  >
+                                    <Button size="sm" variant="outline" className="bg-transparent">
+                                      Practice
+                                    </Button>
+                                  </Link>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2">
+                        {skill.status !== "locked" && (
+                          <Link
+                            href={`/analyze?skill=${skill.name}&skillName=${encodeURIComponent(skill.display_name)}&locked=true`}
+                            className="flex-1"
+                          >
+                            <Button className="w-full" size="sm">
+                              Analyze Form
+                            </Button>
+                          </Link>
+                        )}
+                        <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                          View Guide
+                        </Button>
+                        <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                          Training Plan
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Collapsible>
+              )}
             </Card>
           ))}
         </div>
