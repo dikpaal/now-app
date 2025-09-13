@@ -18,7 +18,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "KUZAN - Calisthenics Skill Analyzer",
+  title: "NOW - Calisthenics Skill Analyzer", // updated app name from KUZAN to NOW
   description: "Analyze your calisthenics skills with AI-powered feedback",
   generator: "v0.app",
 }

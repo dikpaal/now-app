@@ -501,12 +501,12 @@ export default function DashboardPage() {
             <div className="flex items-center gap-4">
               <Image
                 src="/kuzan-logo.png"
-                alt="KUZAN Logo"
+                alt="NOW Logo"
                 width={40}
                 height={40}
                 className="transition-transform duration-300 hover:scale-105"
               />
-              <h1 className="font-heading text-2xl font-bold text-foreground">KUZAN</h1>
+              <h1 className="font-heading text-2xl font-bold text-foreground">NOW</h1>
             </div>
             <div className="flex items-center gap-4">
               <nav className="hidden md:flex items-center gap-4">

@@ -1,4 +1,4 @@
-# KUZAN - Calisthenics Skill Analyzer
+# NOW - Calisthenics Skill Analyzer
 
 A comprehensive calisthenics training platform that combines structured learning roadmaps with AI-powered form analysis and gamified progress tracking. Perfect for beginners and intermediate athletes looking to master static holds like planches, levers, and L-sits.
 
@@ -41,7 +41,7 @@ A comprehensive calisthenics training platform that combines structured learning
 1. **Clone the repository:**
    \`\`\`bash
    git clone <repository-url>
-   cd kuzan-calisthenics-app
+   cd now-calisthenics-app
    \`\`\`
 
 2. **Install dependencies:**

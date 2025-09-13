@@ -40,7 +40,7 @@ export default function AuthPage() {
             <div className="flex justify-center">
               <Image
                 src="/kuzan-logo.png"
-                alt="KUZAN Logo"
+                alt="NOW Logo"
                 width={80}
                 height={80}
                 className="transition-transform duration-300 hover:scale-105"
@@ -142,7 +142,7 @@ export default function AuthPage() {
           <div className="flex justify-center">
             <Image
               src="/kuzan-logo.png"
-              alt="KUZAN Logo"
+              alt="NOW Logo"
               width={80}
               height={80}
               className="transition-transform duration-300 hover:scale-105"
@@ -150,7 +150,7 @@ export default function AuthPage() {
           </div>
           <div>
             <h1 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">
-              {mode === "login" ? "Welcome Back" : "Join KUZAN"}
+              {mode === "login" ? "Welcome Back" : "Join NOW"}
             </h1>
             <p className="text-slate-600 mt-2">
               {mode === "login"
@@ -167,7 +167,7 @@ export default function AuthPage() {
               {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
             </CardTitle>
             <CardDescription className="text-slate-600">
-              {mode === "login" ? "Use your Google account to access KUZAN" : "Create your KUZAN account using Google"}
+              {mode === "login" ? "Use your Google account to access NOW" : "Create your NOW account using Google"}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -219,7 +219,7 @@ export default function AuthPage() {
           <p>
             {mode === "signup"
               ? "By signing up, you agree to our Terms of Service and Privacy Policy"
-              : "© 2024 KUZAN. All rights reserved."}
+              : "© 2024 NOW. All rights reserved."}
           </p>
         </div>
       </div>

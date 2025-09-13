@@ -111,7 +111,7 @@ export default function ProgressPage() {
               </Link>
               <Image
                 src="/kuzan-logo.png"
-                alt="KUZAN Logo"
+                alt="NOW Logo"
                 width={40}
                 height={40}
                 className="transition-transform duration-300 hover:scale-105"
