@@ -200,7 +200,7 @@ export default function SkillsPage() {
                     <CardTitle className="font-heading text-2xl text-foreground">{roadmap.title}</CardTitle>
                     <CardDescription className="text-lg">{roadmap.description}</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-6">
+                  <CardContent className="space-y-6 flex flex-col h-full">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">Total Time:</span>
                       <Badge variant="outline">{roadmap.totalTime}</Badge>
@@ -220,7 +220,9 @@ export default function SkillsPage() {
                         ))}
                       </ul>
                     </div>
-                    <Button className="w-full mt-4">View Details</Button>
+                    <div className="flex-1 flex items-end">
+                      <Button className="w-full mt-4">View Details</Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
