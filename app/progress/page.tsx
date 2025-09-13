@@ -110,7 +110,7 @@ export default function ProgressPage() {
                 </Button>
               </Link>
               <Image
-                src="/kuzan-logo.png"
+                src="/now-logo.png"
                 alt="NOW Logo"
                 width={40}
                 height={40}

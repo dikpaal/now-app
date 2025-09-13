@@ -121,7 +121,7 @@ export default function CalisthenicsAnalyzer() {
               <Activity className="h-4 w-4 text-white" />
             </div>
             <h1 className="text-3xl font-bold tracking-wide text-slate-800 uppercase font-[family-name:var(--font-outfit)]">
-              Kuzan
+              Now
             </h1>
           </div>
           <p className="text-slate-600 text-lg max-w-lg mx-auto leading-relaxed font-[family-name:var(--font-inter)]">

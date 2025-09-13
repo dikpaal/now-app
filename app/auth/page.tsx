@@ -39,7 +39,7 @@ export default function AuthPage() {
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <Image
-                src="/kuzan-logo.png"
+                src="/now-logo.png"
                 alt="NOW Logo"
                 width={80}
                 height={80}
@@ -141,7 +141,7 @@ export default function AuthPage() {
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <Image
-              src="/kuzan-logo.png"
+              src="/now-logo.png"
               alt="NOW Logo"
               width={80}
               height={80}

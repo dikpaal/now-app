@@ -141,7 +141,7 @@ export default function SkillsPage() {
                 </Button>
               </Link>
               <Image
-                src="/kuzan-logo.png"
+                src="/now-logo.png"
                 alt="NOW Logo"
                 width={40}
                 height={40}

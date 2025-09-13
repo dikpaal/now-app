@@ -185,7 +185,7 @@ export default function AnalyzePage() {
                 <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
                   <Activity className="h-4 w-4 text-white" />
                 </div>
-                <h1 className="text-2xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">Kuzan</h1>
+                <h1 className="text-2xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">Now</h1>
               </div>
             </div>
             <div className="flex items-center gap-4">

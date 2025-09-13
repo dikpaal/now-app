@@ -41,13 +41,13 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3 animate-in fade-in-left duration-700">
             <Image
-              src="/kuzan-logo.png"
-              alt="KUZAN Logo"
+              src="/now-logo.png"
+              alt="NOW Logo"
               width={40}
               height={40}
               className="rounded-lg transition-transform hover:scale-110 duration-300"
             />
-            <span className="font-heading text-2xl font-bold text-foreground">KUZAN</span>
+            <span className="font-heading text-2xl font-bold text-foreground">NOW</span>
           </div>
           <nav className="hidden md:flex items-center space-x-8 animate-in fade-in-right duration-700">
             <Link
@@ -137,7 +137,7 @@ export default function LandingPage() {
       <section id="features" ref={featuresRef} className="py-20 px-4 bg-secondary/10">
         <div className="container mx-auto">
           <div className="text-center mb-16 fade-in-up animate-in duration-700">
-            <h2 className="font-heading text-4xl font-bold text-foreground mb-4">Why Choose KUZAN?</h2>
+            <h2 className="font-heading text-4xl font-bold text-foreground mb-4">Why Choose NOW?</h2>
             <p className="text-xl text-foreground/80 max-w-2xl mx-auto">
               Gamified learning paths meet advanced AI technology to give you the structured guidance and feedback you
               need to excel.
@@ -265,7 +265,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <p className="text-foreground/70 mb-6">
-                  "KUZAN helped me perfect my planche form. The AI feedback is incredibly detailed and accurate."
+                  "NOW helped me perfect my planche form. The AI feedback is incredibly detailed and accurate."
                 </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center mr-3 transition-transform duration-300 hover:scale-110">
@@ -338,8 +338,7 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto fade-in-up animate-in duration-700">
             <h2 className="font-heading text-4xl font-bold text-foreground mb-6">Ready to Transform Your Training?</h2>
             <p className="text-xl text-foreground/80 mb-8">
-              Join thousands of athletes following structured roadmaps to master advanced calisthenics skills with
-              KUZAN.
+              Join thousands of athletes following structured roadmaps to master advanced calisthenics skills with NOW.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
@@ -370,8 +369,8 @@ export default function LandingPage() {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center fade-in-up animate-in duration-700">
             <div className="flex items-center space-x-3 mb-4 md:mb-0 transition-transform duration-300 hover:scale-105">
-              <Image src="/kuzan-logo.png" alt="KUZAN Logo" width={32} height={32} className="rounded-lg" />
-              <span className="font-heading text-xl font-bold text-foreground">KUZAN</span>
+              <Image src="/now-logo.png" alt="NOW Logo" width={32} height={32} className="rounded-lg" />
+              <span className="font-heading text-xl font-bold text-foreground">NOW</span>
             </div>
             <div className="flex space-x-6 text-sm text-muted-foreground">
               <Link href="/privacy" className="hover:text-secondary transition-all duration-300 hover:scale-105">
@@ -386,7 +385,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-border/20 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 KUZAN. All rights reserved. Elevate your calisthenics journey.</p>
+            <p>&copy; 2024 NOW. All rights reserved. Elevate your calisthenics journey.</p>
           </div>
         </div>
       </footer>
