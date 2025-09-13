@@ -74,7 +74,9 @@ export default function DashboardPage() {
   const getRoadmapData = (type: "push" | "pull"): Roadmap => {
     const savedRoadmap = localStorage.getItem(`roadmap_${type}`)
     if (savedRoadmap) {
-      return JSON.parse(savedRoadmap)
+      const roadmap = JSON.parse(savedRoadmap)
+      roadmap.overallProgress = calculateOverallProgress(roadmap)
+      return roadmap
     }
 
     // Return default roadmap data if no saved data exists
@@ -116,6 +118,8 @@ export default function DashboardPage() {
             order_index: 2,
             is_sub_skill: false,
             status: "locked",
+            best_score: 0,
+            total_attempts: 0,
           },
           {
             id: 3,
@@ -129,6 +133,8 @@ export default function DashboardPage() {
             order_index: 3,
             is_sub_skill: false,
             status: "locked",
+            best_score: 0,
+            total_attempts: 0,
             subSkills: [
               {
                 id: 31,
@@ -143,6 +149,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 3,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 32,
@@ -157,6 +165,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 3,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 33,
@@ -171,6 +181,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 3,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 34,
@@ -185,6 +197,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 3,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
             ],
           },
@@ -246,6 +260,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 4,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 43,
@@ -260,6 +276,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 4,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 44,
@@ -274,6 +292,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 4,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
             ],
           },
@@ -289,6 +309,8 @@ export default function DashboardPage() {
             order_index: 2,
             is_sub_skill: false,
             status: "locked",
+            best_score: 0,
+            total_attempts: 0,
             subSkills: [
               {
                 id: 51,
@@ -303,6 +325,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 5,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 52,
@@ -317,6 +341,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 5,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 53,
@@ -331,6 +357,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 5,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
               {
                 id: 54,
@@ -345,6 +373,8 @@ export default function DashboardPage() {
                 is_sub_skill: true,
                 parent_skill_id: 5,
                 status: "locked",
+                best_score: 0,
+                total_attempts: 0,
               },
             ],
           },
@@ -393,6 +423,27 @@ export default function DashboardPage() {
       default:
         return <Target className="w-5 h-5 text-muted-foreground" />
     }
+  }
+
+  const calculateOverallProgress = (roadmap: Roadmap): number => {
+    let totalSkills = 0
+    let completedSkills = 0
+
+    roadmap.skills.forEach((skill) => {
+      if (skill.subSkills && skill.subSkills.length > 0) {
+        // For skills with sub-skills, count each sub-skill
+        totalSkills += skill.subSkills.length
+        completedSkills += skill.subSkills.filter((subSkill) => subSkill.status === "completed").length
+      } else {
+        // For standalone skills
+        totalSkills += 1
+        if (skill.status === "completed") {
+          completedSkills += 1
+        }
+      }
+    })
+
+    return totalSkills > 0 ? Math.round((completedSkills / totalSkills) * 100) : 0
   }
 
   if (isLoading || !roadmap) {
@@ -528,7 +579,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-primary mb-1">
-                          {skill.status === "completed" ? 100 : skill.status === "current" ? 50 : 0}%
+                          {skill.status === "completed" ? 100 : skill.best_score || 0}%
                         </div>
                         <div className="text-sm text-muted-foreground">Progress</div>
                       </div>
@@ -605,9 +656,7 @@ export default function DashboardPage() {
                                   )
                                 : skill.status === "completed"
                                   ? 100
-                                  : skill.status === "current"
-                                    ? 50
-                                    : 0}
+                                  : skill.best_score || 0}
                               %
                             </div>
                             <div className="text-sm text-muted-foreground">Progress</div>
