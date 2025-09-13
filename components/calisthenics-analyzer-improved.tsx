@@ -210,7 +210,7 @@ export default function CalisthenicsAnalyzer() {
                     asChild
                     variant="outline"
                     size="lg"
-                    className="border-2 border-amber-400 text-amber-700 bg-white hover:bg-amber-50 font-medium px-8 font-[family-name:var(--font-inter)] transition-all duration-300 hover:scale-105"
+                    className="border-2 border-amber-400 text-amber-700 bg-white hover:bg-amber-50 font-medium px-8 font-[family-name:var(--font-outfit)] transition-all duration-300 hover:scale-105"
                   >
                     <label htmlFor="file-upload" className="cursor-pointer">
                       Choose File
@@ -269,7 +269,7 @@ export default function CalisthenicsAnalyzer() {
                 </div>
               ) : result ? (
                 <div className="space-y-6 animate-in fade-in duration-500">
-                  <div className="flex items-center gap-3 pb-4 border-b-2 border-amber-200 transition-all duration-300">
+                  <div className="flex items-center gap-3 pb-4 border-b-2 border-amber-200 transition-all duration-300 animate-in fade-in slide-in-from-top-4 duration-700">
                     <span className="text-sm text-slate-600 font-medium uppercase tracking-wide font-[family-name:var(--font-inter)]">
                       Skill Level:
                     </span>
@@ -278,7 +278,7 @@ export default function CalisthenicsAnalyzer() {
                     </span>
                   </div>
 
-                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg transition-all duration-300 hover:shadow-xl">
+                  <div className="rounded-2xl overflow-hidden bg-amber-100 shadow-lg transition-all duration-300 hover:shadow-xl animate-in fade-in slide-in-from-top-4 duration-700 delay-150">
                     <Image
                       src={result.processedImage || "/placeholder.svg"}
                       alt="Analysis result"
@@ -288,7 +288,7 @@ export default function CalisthenicsAnalyzer() {
                     />
                   </div>
 
-                  <div className="prose prose-slate max-w-none">
+                  <div className="prose prose-slate max-w-none animate-in fade-in slide-in-from-top-4 duration-700 delay-300">
                     <ReactMarkdown
                       components={{
                         h2: ({ children }) => (

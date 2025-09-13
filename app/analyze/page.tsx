@@ -1,0 +1,448 @@
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import { Upload, Camera, Activity, ChevronDown, ArrowLeft, Target, Zap, BarChart3 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import ReactMarkdown from "react-markdown"
+import Image from "next/image"
+import Link from "next/link"
+
+interface AnalysisResult {
+  processedImage: string
+  analysis: string
+  skillLevel: string
+}
+
+const skillData = {
+  planche: {
+    id: "planche",
+    name: "Planche",
+    variations: [
+      { id: "planche-lean", name: "Planche lean" },
+      { id: "tuck-planche", name: "Tuck planche" },
+      { id: "advanced-tuck-planche", name: "Advanced tuck planche" },
+      { id: "straddle-planche", name: "Straddle planche" },
+      { id: "full-planche", name: "Full planche" },
+    ],
+  },
+  "front-lever": {
+    id: "front-lever",
+    name: "Front-lever",
+    variations: [
+      { id: "tuck-front-lever", name: "Tuck front-lever" },
+      { id: "advanced-tuck-front-lever", name: "Advanced tuck front-lever" },
+      { id: "straddle-front-lever", name: "Straddle front-lever" },
+      { id: "full-front-lever", name: "Full front-lever" },
+    ],
+  },
+  "back-lever": {
+    id: "back-lever",
+    name: "Back-lever",
+    variations: [
+      { id: "tuck-back-lever", name: "Tuck back-lever" },
+      { id: "advanced-tuck-back-lever", name: "Advanced tuck back-lever" },
+      { id: "straddle-back-lever", name: "Straddle back-lever" },
+      { id: "full-back-lever", name: "Full back-lever" },
+    ],
+  },
+}
+
+export default function AnalyzePage() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [result, setResult] = useState<AnalysisResult | null>(null)
+  const [selectedSkill, setSelectedSkill] = useState<string>("")
+  const [selectedVariation, setSelectedVariation] = useState<string>("")
+  const [showSkillDropdown, setShowSkillDropdown] = useState(false)
+  const [showVariationDropdown, setShowVariationDropdown] = useState(false)
+
+  const handleFileSelect = (file: File) => {
+    setSelectedFile(file)
+    setResult(null)
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setPreviewUrl(e.target?.result as string)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFileSelect(e.target.files[0])
+    }
+  }
+
+  const handleSkillSelect = (skillKey: string) => {
+    setSelectedSkill(skillKey)
+    setSelectedVariation("")
+    setShowSkillDropdown(false)
+    setShowVariationDropdown(false)
+  }
+
+  const handleVariationSelect = (variationId: string) => {
+    setSelectedVariation(variationId)
+    setShowVariationDropdown(false)
+  }
+
+  const analyzeSkill = async () => {
+    if (!selectedFile) return
+
+    setIsProcessing(true)
+
+    setTimeout(() => {
+      const mockResult: AnalysisResult = {
+        processedImage: "/analyzed-calisthenics-movement.jpg",
+        analysis: `## Form Analysis\n\n**Overall Assessment:** Good foundation with room for improvement.\n\n### Strengths:\n- Proper hand placement\n- Good core engagement\n- Stable base position\n\n### Areas for Improvement:\n- **Alignment**: Keep your body in a straight line\n- **Breathing**: Remember to breathe consistently\n- **Progression**: Try holding for 5-10 seconds longer\n\n### Next Steps:\n1. Practice wall-supported variations\n2. Focus on slow, controlled movements\n3. Record yourself from different angles`,
+        skillLevel: "Intermediate",
+      }
+      setResult(mockResult)
+      setIsProcessing(false)
+    }, 2000)
+  }
+
+  const resetAnalysis = () => {
+    setSelectedFile(null)
+    setPreviewUrl(null)
+    setResult(null)
+    setIsProcessing(false)
+    setSelectedSkill("")
+    setSelectedVariation("")
+  }
+
+  const handleSignOut = () => {
+    // Sign out logic will be implemented by backend
+    console.log("Sign out clicked")
+  }
+
+  return (
+    <div className="min-h-screen bg-stone-50">
+      <header className="bg-white border-b border-stone-200 sticky top-0 z-50 backdrop-blur-sm bg-white/95">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-4">
+              <Link
+                href="/"
+                className="flex items-center gap-2 text-slate-600 hover:text-slate-800 transition-colors duration-200"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="font-medium font-[family-name:var(--font-inter)]">Back</span>
+              </Link>
+              <div className="h-6 w-px bg-stone-300" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center">
+                  <Activity className="h-4 w-4 text-white" />
+                </div>
+                <h1 className="text-2xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">Kuzan</h1>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 text-sm text-slate-600 font-[family-name:var(--font-inter)]">
+                <Target className="h-4 w-4" />
+                <span>Movement Analyzer</span>
+              </div>
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                size="sm"
+                className="border-2 border-secondary text-secondary bg-white hover:bg-secondary hover:text-primary-foreground font-medium rounded-lg font-[family-name:var(--font-inter)] transition-all duration-300"
+              >
+                Sign Out
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section className="bg-gradient-to-b from-stone-50 to-stone-100 py-16">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-800 px-4 py-2 rounded-full text-sm font-medium mb-6 font-[family-name:var(--font-inter)]">
+            <Zap className="h-4 w-4" />
+            AI-Powered Analysis
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6 font-[family-name:var(--font-outfit)] tracking-tight">
+            Perfect Your Form
+          </h1>
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-[family-name:var(--font-inter)]">
+            Upload a photo of your calisthenics movement and receive detailed AI analysis with personalized feedback to
+            improve your technique.
+          </p>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1 space-y-6">
+            <Card className="border-0 shadow-lg bg-white">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <Target className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-slate-800 font-[family-name:var(--font-outfit)]">
+                    Select Movement
+                  </h2>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowSkillDropdown(!showSkillDropdown)}
+                      className="w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white hover:border-amber-300 transition-all duration-300 shadow-sm hover:shadow-md"
+                    >
+                      <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
+                        {selectedSkill
+                          ? skillData[selectedSkill as keyof typeof skillData].name
+                          : "Choose Movement Type"}
+                      </span>
+                      <ChevronDown className="h-4 w-4 text-slate-500" />
+                    </button>
+
+                    {showSkillDropdown && (
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-stone-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+                        {Object.entries(skillData).map(([key, skill]) => (
+                          <button
+                            key={skill.id}
+                            onClick={() => handleSkillSelect(key)}
+                            className="w-full px-4 py-3 text-sm text-left text-slate-700 hover:bg-amber-50 transition-all duration-200 font-medium font-[family-name:var(--font-inter)]"
+                          >
+                            {skill.name}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {selectedSkill && (
+                    <div className="relative">
+                      <button
+                        onClick={() => setShowVariationDropdown(!showVariationDropdown)}
+                        className="w-full flex items-center justify-between px-4 py-3 text-sm border-2 border-stone-200 rounded-xl bg-white hover:border-amber-300 transition-all duration-300 shadow-sm hover:shadow-md"
+                      >
+                        <span className="text-slate-700 font-medium font-[family-name:var(--font-inter)]">
+                          {selectedVariation
+                            ? skillData[selectedSkill as keyof typeof skillData].variations.find(
+                                (v) => v.id === selectedVariation,
+                              )?.name
+                            : "Choose Progression Level"}
+                        </span>
+                        <ChevronDown className="h-4 w-4 text-slate-500" />
+                      </button>
+
+                      {showVariationDropdown && (
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-stone-200 rounded-xl shadow-xl z-10 overflow-hidden animate-in slide-in-from-top-2 duration-200">
+                          {skillData[selectedSkill as keyof typeof skillData].variations.map((variation) => (
+                            <button
+                              key={variation.id}
+                              onClick={() => handleVariationSelect(variation.id)}
+                              className="w-full px-4 py-3 text-sm text-left text-slate-700 hover:bg-amber-50 transition-all duration-200 font-medium font-[family-name:var(--font-inter)]"
+                            >
+                              {variation.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg bg-white">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <Camera className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-slate-800 font-[family-name:var(--font-outfit)]">
+                    Upload Photo
+                  </h2>
+                </div>
+
+                {!previewUrl ? (
+                  <div className="border-2 border-dashed border-stone-300 rounded-xl p-6 text-center hover:border-amber-400 transition-all duration-300 bg-stone-50 hover:bg-amber-50/30">
+                    <Camera className="h-10 w-10 text-stone-400 mx-auto mb-3 transition-all duration-300 hover:text-amber-600" />
+                    <p className="text-slate-700 mb-2 text-sm font-medium font-[family-name:var(--font-inter)]">
+                      Drop your photo here
+                    </p>
+                    <p className="text-slate-500 mb-4 text-xs font-[family-name:var(--font-inter)]">
+                      JPG, PNG up to 10MB
+                    </p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileInput}
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="border-2 border-amber-400 text-amber-700 bg-white hover:bg-amber-50 font-medium px-6 font-[family-name:var(--font-outfit)] transition-all duration-300"
+                    >
+                      <label htmlFor="file-upload" className="cursor-pointer">
+                        Browse Files
+                      </label>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="rounded-xl overflow-hidden bg-stone-100 shadow-md">
+                      <Image
+                        src={previewUrl || "/placeholder.svg"}
+                        alt="Preview"
+                        width={300}
+                        height={200}
+                        className="w-full h-40 object-cover"
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <Button
+                        onClick={analyzeSkill}
+                        disabled={isProcessing}
+                        size="sm"
+                        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg font-[family-name:var(--font-outfit)] transition-all duration-300"
+                      >
+                        {isProcessing ? "Analyzing..." : "Analyze Movement"}
+                      </Button>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileInput}
+                        className="hidden"
+                        id="reupload-file"
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={resetAnalysis}
+                        className="w-full border-2 border-stone-300 text-slate-700 bg-white hover:bg-stone-50 font-medium rounded-lg font-[family-name:var(--font-inter)] transition-all duration-300"
+                      >
+                        Reset
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="lg:col-span-2">
+            <Card className="border-0 shadow-lg bg-white min-h-[600px]">
+              <CardContent className="p-8">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <BarChart3 className="h-4 w-4 text-amber-600" />
+                  </div>
+                  <h2 className="text-xl font-semibold text-slate-800 font-[family-name:var(--font-outfit)]">
+                    Analysis Results
+                  </h2>
+                </div>
+
+                {isProcessing ? (
+                  <div className="flex flex-col items-center justify-center h-96 space-y-6">
+                    <div className="animate-spin rounded-full h-16 w-16 border-4 border-amber-200 border-t-amber-600"></div>
+                    <div className="text-center space-y-2">
+                      <p className="text-slate-700 text-lg font-medium font-[family-name:var(--font-inter)]">
+                        Analyzing your movement...
+                      </p>
+                      <p className="text-slate-500 text-sm font-[family-name:var(--font-inter)]">
+                        Our AI is examining your form and technique
+                      </p>
+                    </div>
+                  </div>
+                ) : result ? (
+                  <div className="space-y-8">
+                    <div className="flex items-center justify-between p-4 bg-amber-50 rounded-xl border border-amber-200 animate-in fade-in slide-in-from-top-4 duration-700">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center">
+                          <Target className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
+                            Current Level
+                          </p>
+                          <p className="text-xl font-bold text-amber-700 font-[family-name:var(--font-outfit)]">
+                            {result.skillLevel}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl overflow-hidden bg-stone-100 shadow-lg animate-in fade-in slide-in-from-top-4 duration-700 delay-150">
+                      <Image
+                        src={result.processedImage || "/placeholder.svg"}
+                        alt="Analysis result"
+                        width={300}
+                        height={200}
+                        className="w-full h-40 object-cover"
+                      />
+                    </div>
+
+                    <div className="prose prose-slate max-w-none animate-in fade-in slide-in-from-top-4 duration-700 delay-300">
+                      <ReactMarkdown
+                        components={{
+                          h2: ({ children }) => (
+                            <h3 className="text-xl font-bold text-slate-800 mb-4 font-[family-name:var(--font-outfit)]">
+                              {children}
+                            </h3>
+                          ),
+                          p: ({ children }) => (
+                            <p className="text-base text-slate-700 mb-4 leading-relaxed font-[family-name:var(--font-inter)]">
+                              {children}
+                            </p>
+                          ),
+                          strong: ({ children }) => (
+                            <strong className="font-bold text-slate-800 font-[family-name:var(--font-inter)]">
+                              {children}
+                            </strong>
+                          ),
+                          ul: ({ children }) => (
+                            <ul className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
+                              {children}
+                            </ul>
+                          ),
+                          ol: ({ children }) => (
+                            <ol className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
+                              {children}
+                            </ol>
+                          ),
+                          li: ({ children }) => (
+                            <li className="text-slate-700 leading-relaxed font-[family-name:var(--font-inter)]">
+                              {children}
+                            </li>
+                          ),
+                        }}
+                      >
+                        {result.analysis}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-96 text-center space-y-6">
+                    <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center">
+                      <Upload className="h-10 w-10 text-stone-400" />
+                    </div>
+                    <div className="space-y-2">
+                      <p className="text-slate-700 text-lg font-medium font-[family-name:var(--font-inter)]">
+                        Ready to analyze your movement
+                      </p>
+                      <p className="text-slate-500 text-sm max-w-md font-[family-name:var(--font-inter)]">
+                        Select your movement type and upload a photo to receive detailed AI-powered form analysis and
+                        personalized improvement recommendations.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}

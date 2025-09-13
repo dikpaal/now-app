@@ -4,86 +4,87 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Updated to neutral, cozy color palette */
-  --background: #fefefe;
-  --foreground: #2c2c2c;
-  --card: #f8f8f8;
-  --card-foreground: #2c2c2c;
-  --popover: #ffffff;
-  --popover-foreground: #2c2c2c;
-  --primary: #4a4a4a;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f1f1;
-  --secondary-foreground: #2c2c2c;
-  --muted: #f5f5f5;
-  --muted-foreground: #6b6b6b;
-  --accent: #8b8b8b;
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --border: #e5e5e5;
-  --input: #ffffff;
-  --ring: rgba(74, 74, 74, 0.2);
-  --chart-1: #8b8b8b;
-  --chart-2: #4a4a4a;
-  --chart-3: #dc2626;
-  --chart-4: #f5f5f5;
-  --chart-5: #2c2c2c;
-  --radius: 0.375rem;
-  --sidebar: #f8f8f8;
-  --sidebar-foreground: #2c2c2c;
-  --sidebar-primary: #4a4a4a;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #8b8b8b;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: #e5e5e5;
-  --sidebar-ring: rgba(74, 74, 74, 0.2);
-  --font-inter: "Inter", sans-serif;
-  --font-outfit: "Outfit", sans-serif;
-  --font-geist-mono: "Geist Mono", monospace;
+  /* Updated color palette to match the logo design */
+  --background: #f5f2ed; /* Light beige/cream from logo background */
+  --foreground: #3a3a3a; /* Dark charcoal from logo figure */
+  --card: #ffffff; /* Clean white for cards */
+  --card-foreground: #3a3a3a; /* Dark charcoal for card content */
+  --popover: #faf8f4; /* Slightly warmer white for popovers */
+  --popover-foreground: #3a3a3a; /* Dark charcoal for popover text */
+  --primary: #c17b5a; /* Terracotta/burnt orange from logo accent */
+  --primary-foreground: #ffffff; /* White text on terracotta primary */
+  --secondary: #7a8471; /* Sage green from logo detail */
+  --secondary-foreground: #ffffff; /* White text on sage secondary */
+  --tertiary: #3a3a3a; /* Dark charcoal as tertiary */
+  --tertiary-foreground: #ffffff; /* White text on dark tertiary */
+  --muted: #e8e4dc; /* Muted beige for subtle backgrounds */
+  --muted-foreground: #6b6b6b; /* Gray for muted content */
+  --accent: #c17b5a; /* Terracotta for accents */
+  --accent-foreground: #ffffff; /* White text on accent elements */
+  --destructive: #dc2626; /* Red for destructive actions */
+  --destructive-foreground: #ffffff; /* White text for destructive */
+  --border: #d4cfc4; /* Soft beige border */
+  --input: #ffffff; /* White for input backgrounds */
+  --ring: rgba(193, 123, 90, 0.3); /* Terracotta focus ring */
+  --chart-1: #c17b5a; /* Terracotta for first chart color */
+  --chart-2: #7a8471; /* Sage green for second chart color */
+  --chart-3: #3a3a3a; /* Dark charcoal for third chart color */
+  --chart-4: #e8e4dc; /* Muted beige for fourth chart color */
+  --chart-5: #f5f2ed; /* Background beige for fifth chart color */
+  --radius: 0.75rem; /* Slightly more rounded for cozy feel */
+  --sidebar: #faf8f4; /* Light warm white for sidebar */
+  --sidebar-foreground: #3a3a3a; /* Dark charcoal for sidebar text */
+  --sidebar-primary: #c17b5a; /* Terracotta for primary sidebar */
+  --sidebar-primary-foreground: #ffffff; /* White for primary sidebar text */
+  --sidebar-accent: #7a8471; /* Sage green for sidebar accents */
+  --sidebar-accent-foreground: #ffffff; /* White for sidebar accent text */
+  --sidebar-border: #d4cfc4; /* Soft beige border for sidebar */
+  --sidebar-ring: rgba(193, 123, 90, 0.3); /* Terracotta focus ring for sidebar */
 }
 
 .dark {
-  /* Updated dark mode with cozy neutral colors */
+  /* Updated dark mode to complement the new color palette */
   --background: #1a1a1a;
   --foreground: #e5e5e5;
   --card: #262626;
   --card-foreground: #e5e5e5;
   --popover: #262626;
   --popover-foreground: #e5e5e5;
-  --primary: #d4d4d4;
-  --primary-foreground: #1a1a1a;
-  --secondary: #404040;
-  --secondary-foreground: #e5e5e5;
+  --primary: #c17b5a; /* Keep terracotta as primary in dark mode */
+  --primary-foreground: #ffffff; /* White text on terracotta */
+  --secondary: #7a8471; /* Keep sage green as secondary */
+  --secondary-foreground: #ffffff; /* White text on sage */
+  --tertiary: #e5e5e5; /* Light gray as tertiary in dark */
+  --tertiary-foreground: #1a1a1a; /* Dark text on light tertiary */
   --muted: #404040;
   --muted-foreground: #a3a3a3;
-  --accent: #8b8b8b;
-  --accent-foreground: #1a1a1a;
+  --accent: #c17b5a; /* Keep terracotta accent */
+  --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: #404040;
   --input: #262626;
-  --ring: rgba(212, 212, 212, 0.2);
-  --chart-1: #8b8b8b;
-  --chart-2: #d4d4d4;
-  --chart-3: #ef4444;
+  --ring: rgba(193, 123, 90, 0.3);
+  --chart-1: #c17b5a;
+  --chart-2: #7a8471;
+  --chart-3: #e5e5e5;
   --chart-4: #404040;
-  --chart-5: #e5e5e5;
+  --chart-5: #262626;
   --sidebar: #262626;
   --sidebar-foreground: #e5e5e5;
-  --sidebar-primary: #d4d4d4;
-  --sidebar-primary-foreground: #1a1a1a;
-  --sidebar-accent: #8b8b8b;
-  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-primary: #c17b5a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #7a8471;
+  --sidebar-accent-foreground: #ffffff;
   --sidebar-border: #404040;
-  --sidebar-ring: rgba(212, 212, 212, 0.2);
+  --sidebar-ring: rgba(193, 123, 90, 0.3);
 }
 
 @theme inline {
-  /* Updated font variables to use Outfit for headings and Inter for body */
-  --font-sans: var(--font-inter);
-  --font-heading: var(--font-outfit);
-  --font-mono: var(--font-geist-mono);
+  /* Updated font variables to use new modern, cozy fonts */
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+  --font-mono: "JetBrains Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -94,6 +95,8 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-foreground: var(--tertiary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -128,5 +131,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Added heading font class for consistent typography */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading;
   }
 }

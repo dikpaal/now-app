@@ -1,19 +1,19 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Outfit, Inter } from "next/font/google"
+import { Plus_Jakarta_Sans, DM_Sans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
 
-const outfit = Outfit({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-heading",
   display: "swap",
 })
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-sans",
   display: "swap",
 })
 
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${outfit.variable} ${inter.variable}`}>
+      <body className={`font-sans ${plusJakartaSans.variable} ${dmSans.variable}`}>
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>

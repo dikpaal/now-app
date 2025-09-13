@@ -1,5 +1,5 @@
-import CalisthenicsAnalyzer from "@/components/calisthenics-analyzer-improved"
+import LandingPage from "@/components/landing-page"
 
 export default function Home() {
-  return <CalisthenicsAnalyzer />
+  return <LandingPage />
 }
