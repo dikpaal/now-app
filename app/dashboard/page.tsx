@@ -629,6 +629,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
 
     roadmap.skills.forEach((skill) => {
       if (skill.subSkills && skill.subSkills.length > 0) {
+        // For skills with sub-skills, count each sub-skill
         totalSkills += skill.subSkills.length
         completedSkills += skill.subSkills.filter((subSkill) => subSkill.status === "completed").length
       } else {
