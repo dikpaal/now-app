@@ -15,6 +15,8 @@ import {
   Lock,
   CheckCircle,
   XCircle,
+  ChevronUp,
+  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -94,6 +96,7 @@ export default function AnalyzePage() {
   const [isLocked, setIsLocked] = useState(false)
   const [lockedSkillName, setLockedSkillName] = useState<string>("")
   const [showCelebrationOverlay, setShowCelebrationOverlay] = useState(false)
+  const [isAnalysisExpanded, setIsAnalysisExpanded] = useState(false)
 
   const router = useRouter()
 
@@ -754,7 +757,7 @@ export default function AnalyzePage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-gradient-to-br from-stone-50 to-amber-50">
       {showCelebrationOverlay && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center transition-all duration-500 ease-out"
@@ -832,7 +835,7 @@ export default function AnalyzePage() {
         </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1 space-y-6">
             <Card className="border-0 shadow-lg bg-white">
@@ -1056,138 +1059,223 @@ export default function AnalyzePage() {
                     </div>
                   </div>
                 ) : result ? (
-                  <div className="space-y-8">
-                    {result.scoreData && (
-                      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-6 animate-in fade-in slide-in-from-top-4 duration-700">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-3">
-                            <div
-                              className={`w-12 h-12 rounded-lg flex items-center justify-center ${result.scoreData.is_passing ? "bg-green-500" : "bg-amber-500"}`}
-                            >
-                              {result.scoreData.is_passing ? (
-                                <CheckCircle className="h-6 w-6 text-white" />
-                              ) : (
-                                <Target className="h-6 w-6 text-white" />
-                              )}
-                            </div>
-                            <div>
-                              <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
-                                Performance Score
-                              </p>
-                              <p className="text-3xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">
-                                {Math.ceil(result.scoreData.overall_score)}%
-                              </p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div
-                              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${result.scoreData.is_passing ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
-                            >
-                              {result.scoreData.is_passing ? (
-                                <>
-                                  <CheckCircle className="h-4 w-4" />
-                                  PASSING
-                                </>
-                              ) : (
-                                <>
-                                  <XCircle className="h-4 w-4" />
-                                  NEEDS WORK
-                                </>
-                              )}
-                            </div>
-                            <p className="text-xs text-slate-500 mt-1 font-[family-name:var(--font-inter)]">
-                              Threshold: {result.scoreData.passing_threshold}%
+                  <Card className="bg-white/80 backdrop-blur-sm border-stone-200 shadow-xl">
+                    <CardContent className="p-8">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-8 h-8 bg-amber-600 rounded-lg flex items-center justify-center">
+                          <Target className="h-4 w-4 text-white" />
+                        </div>
+                        <h2 className="text-xl font-semibold text-slate-800 font-[family-name:var(--font-outfit)]">
+                          Analysis Results
+                        </h2>
+                      </div>
+
+                      {isProcessing ? (
+                        <div className="flex flex-col items-center justify-center h-96 space-y-6">
+                          <div className="animate-spin rounded-full h-16 w-16 border-4 border-amber-200 border-t-amber-600"></div>
+                          <div className="text-center space-y-2">
+                            <p className="text-slate-700 text-lg font-medium font-[family-name:var(--font-inter)]">
+                              Analyzing your movement...
+                            </p>
+                            <p className="text-slate-500 text-sm font-[family-name:var(--font-inter)]">
+                              Our AI is examining your form and technique
                             </p>
                           </div>
                         </div>
+                      ) : result ? (
+                        <div className="space-y-8">
+                          {result.scoreData && (
+                            <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200 p-6 animate-in fade-in slide-in-from-top-4 duration-700">
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                  <div
+                                    className={`w-12 h-12 rounded-lg flex items-center justify-center ${result.scoreData.is_passing ? "bg-green-500" : "bg-amber-500"}`}
+                                  >
+                                    {result.scoreData.is_passing ? (
+                                      <CheckCircle className="h-6 w-6 text-white" />
+                                    ) : (
+                                      <Target className="h-6 w-6 text-white" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
+                                      Performance Score
+                                    </p>
+                                    <p className="text-3xl font-bold text-slate-800 font-[family-name:var(--font-outfit)]">
+                                      {Math.ceil(result.scoreData.overall_score)}%
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="text-right">
+                                  <div
+                                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${result.scoreData.is_passing ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"}`}
+                                  >
+                                    {result.scoreData.is_passing ? (
+                                      <>
+                                        <CheckCircle className="h-4 w-4" />
+                                        PASSING
+                                      </>
+                                    ) : (
+                                      <>
+                                        <XCircle className="h-4 w-4" />
+                                        NEEDS WORK
+                                      </>
+                                    )}
+                                  </div>
+                                  <p className="text-xs text-slate-500 mt-1 font-[family-name:var(--font-inter)]">
+                                    Threshold: {result.scoreData.passing_threshold}%
+                                  </p>
+                                </div>
+                              </div>
 
-                        <div className="space-y-2 mb-4">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-slate-600 font-medium">Progress to Pass</span>
-                            <span className="text-slate-700 font-bold">
-                              {Math.ceil(result.scoreData.overall_score)}/{result.scoreData.passing_threshold}
-                            </span>
+                              <div className="space-y-2 mb-4">
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-slate-600 font-medium">Progress to Pass</span>
+                                  <span className="text-slate-700 font-bold">
+                                    {Math.ceil(result.scoreData.overall_score)}/{result.scoreData.passing_threshold}
+                                  </span>
+                                </div>
+                                <Progress
+                                  value={(result.scoreData.overall_score / result.scoreData.passing_threshold) * 100}
+                                  className="h-3"
+                                />
+                              </div>
+
+                              {result.scoreData.missing_landmarks && result.scoreData.missing_landmarks.length > 0 && (
+                                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                                  <p className="text-sm text-red-800 font-medium mb-1">Missing Body Points:</p>
+                                  <p className="text-xs text-red-600">
+                                    {result.scoreData.missing_landmarks.join(", ")}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200 animate-in fade-in slide-in-from-top-4 duration-700 delay-100">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-stone-600 rounded-lg flex items-center justify-center">
+                                <BarChart3 className="h-5 w-5 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
+                                  Current Level
+                                </p>
+                                <p className="text-xl font-bold text-stone-700 font-[family-name:var(--font-outfit)]">
+                                  {result.skillLevel}
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                          <Progress
-                            value={(result.scoreData.overall_score / result.scoreData.passing_threshold) * 100}
-                            className="h-3"
-                          />
-                        </div>
 
-                        {result.scoreData.missing_landmarks && result.scoreData.missing_landmarks.length > 0 && (
-                          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                            <p className="text-sm text-red-800 font-medium mb-1">Missing Body Points:</p>
-                            <p className="text-xs text-red-600">{result.scoreData.missing_landmarks.join(", ")}</p>
+                          <div className="rounded-xl overflow-hidden bg-stone-100 shadow-lg animate-in fade-in slide-in-from-top-4 duration-700 delay-150">
+                            <Image
+                              src={result.processedImage || "/placeholder.svg"}
+                              alt="Analysis result"
+                              width={300}
+                              height={200}
+                              className="w-full h-40 object-cover"
+                            />
                           </div>
-                        )}
-                      </div>
-                    )}
 
-                    <div className="flex items-center justify-between p-4 bg-stone-50 rounded-xl border border-stone-200 animate-in fade-in slide-in-from-top-4 duration-700 delay-100">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-stone-600 rounded-lg flex items-center justify-center">
-                          <BarChart3 className="h-5 w-5 text-white" />
+                          <div className="animate-in fade-in slide-in-from-top-4 duration-700 delay-300">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 overflow-hidden shadow-lg">
+                              <button
+                                onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
+                                className="w-full p-6 flex items-center justify-between hover:bg-blue-100/50 transition-colors duration-200"
+                              >
+                                <div className="flex items-center gap-4">
+                                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                                    <Sparkles className="h-6 w-6 text-white" />
+                                  </div>
+                                  <div className="text-left">
+                                    <h3 className="text-lg font-bold text-slate-800 font-[family-name:var(--font-outfit)]">
+                                      AI Analysis & Feedback
+                                    </h3>
+                                    <p className="text-sm text-slate-600 font-[family-name:var(--font-inter)]">
+                                      Detailed insights and improvement recommendations
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm text-blue-600 font-medium">
+                                    {isAnalysisExpanded ? "Hide" : "Show"} Details
+                                  </span>
+                                  {isAnalysisExpanded ? (
+                                    <ChevronUp className="h-5 w-5 text-blue-600" />
+                                  ) : (
+                                    <ChevronDown className="h-5 w-5 text-blue-600" />
+                                  )}
+                                </div>
+                              </button>
+
+                              <div
+                                className={`transition-all duration-500 ease-in-out ${
+                                  isAnalysisExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                                } overflow-hidden`}
+                              >
+                                <div className="px-6 pb-6 border-t border-blue-200/50">
+                                  <div className="prose prose-slate max-w-none pt-4">
+                                    <ReactMarkdown
+                                      components={{
+                                        h2: ({ children }) => (
+                                          <h3 className="text-xl font-bold text-slate-800 mb-4 font-[family-name:var(--font-outfit)]">
+                                            {children}
+                                          </h3>
+                                        ),
+                                        p: ({ children }) => (
+                                          <p className="text-base text-slate-700 mb-4 leading-relaxed font-[family-name:var(--font-inter)]">
+                                            {children}
+                                          </p>
+                                        ),
+                                        strong: ({ children }) => (
+                                          <strong className="font-bold text-slate-800 font-[family-name:var(--font-inter)]">
+                                            {children}
+                                          </strong>
+                                        ),
+                                        ul: ({ children }) => (
+                                          <ul className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
+                                            {children}
+                                          </ul>
+                                        ),
+                                        ol: ({ children }) => (
+                                          <ol className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
+                                            {children}
+                                          </ol>
+                                        ),
+                                        li: ({ children }) => (
+                                          <li className="text-slate-700 leading-relaxed font-[family-name:var(--font-inter)]">
+                                            {children}
+                                          </li>
+                                        ),
+                                      }}
+                                    >
+                                      {result.analysis}
+                                    </ReactMarkdown>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-sm text-slate-600 font-medium font-[family-name:var(--font-inter)]">
-                            Current Level
-                          </p>
-                          <p className="text-xl font-bold text-stone-700 font-[family-name:var(--font-outfit)]">
-                            {result.skillLevel}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="rounded-xl overflow-hidden bg-stone-100 shadow-lg animate-in fade-in slide-in-from-top-4 duration-700 delay-150">
-                      <Image
-                        src={result.processedImage || "/placeholder.svg"}
-                        alt="Analysis result"
-                        width={300}
-                        height={200}
-                        className="w-full h-40 object-cover"
-                      />
-                    </div>
-
-                    <div className="prose prose-slate max-w-none animate-in fade-in slide-in-from-top-4 duration-700 delay-300">
-                      <ReactMarkdown
-                        components={{
-                          h2: ({ children }) => (
-                            <h3 className="text-xl font-bold text-slate-800 mb-4 font-[family-name:var(--font-outfit)]">
-                              {children}
-                            </h3>
-                          ),
-                          p: ({ children }) => (
-                            <p className="text-base text-slate-700 mb-4 leading-relaxed font-[family-name:var(--font-inter)]">
-                              {children}
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-96 text-center space-y-6">
+                          <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center">
+                            <Upload className="h-10 w-10 text-stone-400" />
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-slate-700 text-lg font-medium font-[family-name:var(--font-inter)]">
+                              Ready to analyze your movement
                             </p>
-                          ),
-                          strong: ({ children }) => (
-                            <strong className="font-bold text-slate-800 font-[family-name:var(--font-inter)]">
-                              {children}
-                            </strong>
-                          ),
-                          ul: ({ children }) => (
-                            <ul className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
-                              {children}
-                            </ul>
-                          ),
-                          ol: ({ children }) => (
-                            <ol className="text-base text-slate-700 space-y-2 mb-6 ml-4 font-[family-name:var(--font-inter)]">
-                              {children}
-                            </ol>
-                          ),
-                          li: ({ children }) => (
-                            <li className="text-slate-700 leading-relaxed font-[family-name:var(--font-inter)]">
-                              {children}
-                            </li>
-                          ),
-                        }}
-                      >
-                        {result.analysis}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
+                            <p className="text-slate-500 text-sm max-w-md font-[family-name:var(--font-inter)]">
+                              Select your movement type and upload a photo to receive detailed AI-powered form analysis
+                              and personalized improvement recommendations.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-96 text-center space-y-6">
                     <div className="w-20 h-20 bg-stone-100 rounded-2xl flex items-center justify-center">
