@@ -16,7 +16,6 @@ import {
   CheckCircle,
   XCircle,
   ChevronUp,
-  Sparkles,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -1179,15 +1178,12 @@ export default function AnalyzePage() {
                           </div>
 
                           <div className="animate-in fade-in slide-in-from-top-4 duration-700 delay-300">
-                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 overflow-hidden shadow-lg">
+                            <div className="bg-stone-50 rounded-xl border border-stone-200 overflow-hidden shadow-lg">
                               <button
                                 onClick={() => setIsAnalysisExpanded(!isAnalysisExpanded)}
-                                className="w-full p-6 flex items-center justify-between hover:bg-blue-100/50 transition-colors duration-200"
+                                className="w-full p-6 flex items-center justify-between hover:bg-stone-100/50 transition-colors duration-200"
                               >
                                 <div className="flex items-center gap-4">
-                                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
-                                    <Sparkles className="h-6 w-6 text-white" />
-                                  </div>
                                   <div className="text-left">
                                     <h3 className="text-lg font-bold text-slate-800 font-[family-name:var(--font-outfit)]">
                                       AI Analysis & Feedback
@@ -1198,13 +1194,13 @@ export default function AnalyzePage() {
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-sm text-blue-600 font-medium">
+                                  <span className="text-sm text-slate-600 font-medium">
                                     {isAnalysisExpanded ? "Hide" : "Show"} Details
                                   </span>
                                   {isAnalysisExpanded ? (
-                                    <ChevronUp className="h-5 w-5 text-blue-600" />
+                                    <ChevronUp className="h-5 w-5 text-slate-600" />
                                   ) : (
-                                    <ChevronDown className="h-5 w-5 text-blue-600" />
+                                    <ChevronDown className="h-5 w-5 text-slate-600" />
                                   )}
                                 </div>
                               </button>
@@ -1214,7 +1210,7 @@ export default function AnalyzePage() {
                                   isAnalysisExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
                                 } overflow-hidden`}
                               >
-                                <div className="px-6 pb-6 border-t border-blue-200/50">
+                                <div className="px-6 pb-6 border-t border-stone-200/50">
                                   <div className="prose prose-slate max-w-none pt-4">
                                     <ReactMarkdown
                                       components={{
