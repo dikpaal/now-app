@@ -1207,10 +1207,10 @@ export default function AnalyzePage() {
 
                               <div
                                 className={`transition-all duration-500 ease-in-out ${
-                                  isAnalysisExpanded ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                                  isAnalysisExpanded ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                                 } overflow-hidden`}
                               >
-                                <div className="px-6 pb-6 border-t border-stone-200/50">
+                                <div className="px-6 pb-6 border-t border-stone-200/50 max-h-[400px] overflow-y-auto">
                                   <div className="prose prose-slate max-w-none pt-4">
                                     <ReactMarkdown
                                       components={{
