@@ -1,4 +1,4 @@
-# Now - Calisthenics Skill Analyzer
+# Now
 
 A comprehensive calisthenics training platform that combines structured learning roadmaps with AI-powered form analysis and gamified progress tracking. Perfect for beginners and intermediate athletes looking to master static holds like planches, levers, and L-sits.
 
