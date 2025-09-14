@@ -803,9 +803,6 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 {/* Welcome Section */}
                 <div className="mb-8">
                     <h2 className="font-heading text-3xl font-bold text-foreground mb-2">Welcome to Your Journey</h2>
-                    <p className="text-muted-foreground text-lg">
-                        Track your progress and master calisthenics skills step by step
-                    </p>
                 </div>
 
                 {/* Roadmap Overview */}
