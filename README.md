@@ -61,7 +61,7 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
 ## 🛠️ Tech Stack
 
 ### Frontend Technologies
-\`\`\`json
+```
 {
   "framework": "Next.js 15.2.4",
   "language": "TypeScript 5",
@@ -75,10 +75,10 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
   "charts": "Recharts",
   "analytics": "Vercel Analytics"
 }
-\`\`\`
+```
 
 ### Backend Technologies
-\`\`\`json
+```
 {
   "api_framework": "FastAPI",
   "language": "Python 3.8+",
@@ -88,10 +88,10 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
   "http_client": "Requests",
   "cors": "FastAPI CORS Middleware"
 }
-\`\`\`
+```
 
 ### Development Tools
-\`\`\`json
+```
 {
   "package_manager": "npm",
   "bundler": "Next.js built-in (Turbopack)",
@@ -99,11 +99,11 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
   "type_checking": "TypeScript",
   "css_processing": "PostCSS + Autoprefixer"
 }
-\`\`\`
+```
 
 ## 📁 Project Structure
 
-\`\`\`
+```
 ├── 📁 app/                          # Next.js App Router
 │   ├── 🎨 globals.css              # Global styles & design tokens
 │   ├── ⚙️ layout.tsx               # Root layout with fonts & metadata
@@ -141,7 +141,7 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
 │   └── 🍞 use-toast.ts             # Toast notification hook
 └── 📁 public/                      # Static assets
     └── 🖼️ images/                  # Sample images & placeholders
-\`\`\`
+```
 
 ## 🔬 AI/ML Components Deep Dive
 
@@ -181,7 +181,7 @@ NOW is a full-stack application with a modern frontend, Python-based AI/ML backe
 - **Package Manager**: npm or yarn
 
 ### Frontend Setup
-\`\`\`bash
+```
 # Clone the repository
 git clone <repository-url>
 cd now-calisthenics-app
@@ -194,10 +194,10 @@ npm run dev
 
 # Open browser
 # Navigate to http://localhost:3000
-\`\`\`
+```
 
 ### Backend Setup
-\`\`\`bash
+```
 # Navigate to backend directory
 cd backend
 
@@ -208,13 +208,13 @@ pip install fastapi uvicorn opencv-python mediapipe numpy requests google-genera
 uvicorn api:app --reload --port 8000
 
 # Backend available at http://localhost:8000
-\`\`\`
+```
 
 ### Environment Variables
-\`\`\`bash
+```
 # Create .env file in backend/
 GOOGLE_API_KEY=your_gemini_api_key_here
-\`\`\`
+```
 
 ## 🎮 User Journey
 
@@ -228,7 +228,7 @@ GOOGLE_API_KEY=your_gemini_api_key_here
 ## 🎨 Design System
 
 ### Color Palette
-\`\`\`css
+```
 /* Warm, earthy color scheme inspired by natural movement */
 --primary: #c17b5a;      /* Terracotta - main actions */
 --secondary: #7a8471;    /* Sage green - accents */
@@ -236,7 +236,7 @@ GOOGLE_API_KEY=your_gemini_api_key_here
 --foreground: #3a3a3a;   /* Dark charcoal - text */
 --card: #ffffff;         /* Clean white - cards */
 --muted: #e8e4dc;        /* Muted beige - subtle backgrounds */
-\`\`\`
+```
 
 ### Typography
 - **Headings**: Plus Jakarta Sans (modern, friendly)
@@ -273,7 +273,7 @@ GOOGLE_API_KEY=your_gemini_api_key_here
 ## 🔌 API Endpoints
 
 ### Backend API (`FastAPI`)
-\`\`\`python
+```
 # Main analysis endpoint
 POST /analyze
 {
@@ -296,7 +296,7 @@ GET /
   "message": "Calisthenics Analysis API",
   "status": "healthy"
 }
-\`\`\`
+```
 
 ## 🧪 Development Notes
 
