@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -50,7 +52,182 @@ export default function DashboardPage() {
   const [roadmap, setRoadmap] = useState<Roadmap | null>(null)
   const [expandedSkills, setExpandedSkills] = useState<Set<number>>(new Set())
   const [isLoading, setIsLoading] = useState(true)
+  const [showGuideModal, setShowGuideModal] = useState(false)
+  const [modalContent, setModalContent] = useState<{
+    type: "guide" | "training"
+    skill: string
+    title: string
+    content: string
+  } | null>(null)
   const router = useRouter()
+
+  const skillData = {
+    elbow_lever: {
+      guide: `# Elbow Lever Guide
+
+## Description
+A horizontal balance supported by elbows pressed into the torso.
+
+## Strength Focus
+- **Core & hips**: planks, hollow holds, frog stands
+- **Shoulders & triceps**: pseudo-planche push-ups, crow pose  
+- **Wrists & balance**: wrist circles, finger push-ups
+
+## Tips
+Start tucked, progress to straddle/full; warm up wrists.`,
+
+      training: `# Elbow Lever Training Plan
+
+| Week | Goal | Drills |
+|------|------|--------|
+| 1 | Build base | Wrist mobility, frog stand, planks |
+| 2 | Tucked lever | 3×10 s tuck holds, crow pose |
+| 3 | Longer tuck holds | Wall-assisted, planche leans |
+| 4 | Diagonal lever | 3×10 s diagonal holds |
+| 5 | Straddle lever | 5 s holds, continue tuck |
+| 6 | Full lever attempts | 3×5 s full, frog stand |
+| 7 | Consolidate full | 3×10 s holds |
+| 8 | Advance/refine | Longer holds, one-arm trials |`,
+    },
+
+    l_sit: {
+      guide: `# L-Sit Guide
+
+## Description
+Support on straight arms with legs extended at right angle.
+
+## Strength Focus
+- **Shoulders/triceps**: support holds, dips
+- **Core/hip flexors**: seated leg lifts, hollow holds
+- **Hamstrings**: pike stretches
+
+## Tips
+Progress: feet down → tuck → one leg → full.`,
+
+      training: `# L-Sit Training Plan
+
+| Week | Goal | Drills |
+|------|------|--------|
+| 1 | Support holds | 3×20 s support, planks |
+| 2 | Core prep | Leg lifts, knee raises |
+| 3 | Tuck L-sit | 3×10 s tuck, hollow rocks |
+| 4 | One-leg L-sit | 3×10 s per leg |
+| 5 | Partial extension | 3×10 s half-L |
+| 6 | Full attempts | 3×5 s holds |
+| 7 | Longer holds | 3×15 s |
+| 8-10 | Consolidate | 20–30 s full, add V-sit lifts |`,
+    },
+
+    planche: {
+      guide: `# Planche Guide
+
+## Description
+Straight-arm horizontal hold with shoulders leaning forward.
+
+## Strength Focus
+- **Shoulders**: planche leans, pseudo-push-ups
+- **Core/glutes**: hollow holds, tuck planche
+- **Scapula/wrists**: scapular push-ups, wrist prep
+
+## Tips
+Hold each progression ~20 s before advancing; 2–3×/week.`,
+
+      training: `# Planche Training Plan (12 weeks; recycle & extend)
+
+| Week | Goal | Drills |
+|------|------|--------|
+| 1–2 | Prep | Wrist drills, scap push-ups, lean 3×10 s |
+| 3–4 | Tuck | Frog stand, tuck 5×5–10 s |
+| 5–6 | Adv. tuck | Hips open, pseudo-push-ups |
+| 7–8 | Straddle tuck | Straddle knees, 3–5 s holds |
+| 9–10 | Straddle planche | Band-assisted, elevated leans |
+| 11–12 | Consolidate | 5–10 s straddle, refine form |`,
+    },
+
+    back_lever: {
+      guide: `# Back Lever Guide
+
+## Description
+Horizontal hold, body facing down, arms behind.
+
+## Strength Focus
+- **Shoulders**: skin-the-cat, German hangs
+- **Back/lats**: pull-ups, rows, dragon flags
+- **Core/glutes**: reverse planks, hollow holds
+
+## Tips
+Progress: tuck → advanced tuck → one-leg → straddle → full.`,
+
+      training: `# Back Lever Training Plan
+
+| Week | Goal | Drills |
+|------|------|--------|
+| 1–2 | Mobility/tuck | German hangs, tuck 3×5–10 s |
+| 3–4 | Longer tuck | 3×10–15 s, advanced tuck |
+| 5–6 | One-leg | 5–10 s holds, rows |
+| 7–8 | Straddle | 3–5 s holds, dragon flags |
+| 9–10 | Full attempts | 1–3 s holds, negatives |
+| 11–12 | Longer holds | 5–10 s |
+| 13–16 | Consolidate | 10–15 s, dynamic raises |`,
+    },
+
+    front_lever: {
+      guide: `# Front Lever Guide
+
+## Description
+Horizontal hold, body facing up, arms locked overhead.
+
+## Strength Focus
+- **Back/lats**: pull-ups, weighted pulls, rows
+- **Core**: hollow holds, knee raises, dragon flags
+- **Scapula**: scapular pull-ups, lever raises
+
+## Tips
+Progress: tuck → advanced tuck → one-leg → straddle → full.`,
+
+      training: `# Front Lever Training Plan
+
+| Week | Goal | Drills |
+|------|------|--------|
+| 1–2 | Base strength | Pull-ups, rows, hollow holds |
+| 3–4 | Tuck | 5–10 s holds, scap pulls |
+| 5–6 | Adv. tuck | 5–10 s, weighted pulls |
+| 7–8 | One-leg | 3–5 s holds, lever raises |
+| 9–10 | Straddle | Band-assist, rows |
+| 11–12 | Full attempts | 1–3 s, negatives |
+| 13–16 | Consolidate | 5–10 s full, dragon flags |
+| 17–20 | Advanced | 10–15 s, one-arm variations |`,
+    },
+  }
+
+  const handleViewGuide = (skillName: string, displayName: string) => {
+    const content = skillData[skillName as keyof typeof skillData]?.guide || "Guide not available"
+    setModalContent({
+      type: "guide",
+      skill: skillName,
+      title: `${displayName} - Guide`,
+      content,
+    })
+    setShowGuideModal(true)
+  }
+
+  const handleViewTrainingPlan = (skillName: string, displayName: string) => {
+    const content = skillData[skillName as keyof typeof skillData]?.training || "Training plan not available"
+    setModalContent({
+      type: "training",
+      skill: skillName,
+      title: `${displayName} - Training Plan`,
+      content,
+    })
+    setShowGuideModal(true)
+  }
+
+  const handleModalClose = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setShowGuideModal(false)
+      setModalContent(null)
+    }
+  }
 
   useEffect(() => {
     const loadRoadmap = () => {
@@ -480,6 +657,85 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Guide/Training Plan Modal Overlay */}
+      {showGuideModal && modalContent && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center transition-all duration-300 ease-out"
+          style={{
+            backdropFilter: "blur(8px)",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          }}
+          onClick={handleModalClose}
+        >
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="p-6 border-b border-stone-200">
+              <h2 className="text-2xl font-bold text-stone-800 font-[family-name:var(--font-outfit)]">
+                {modalContent.title}
+              </h2>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[60vh]">
+              <div className="prose prose-stone max-w-none">
+                {modalContent.content.split("\n").map((line, index) => {
+                  if (line.startsWith("# ")) {
+                    return (
+                      <h1 key={index} className="text-2xl font-bold text-stone-800 mb-4">
+                        {line.slice(2)}
+                      </h1>
+                    )
+                  } else if (line.startsWith("## ")) {
+                    return (
+                      <h2 key={index} className="text-xl font-semibold text-stone-700 mb-3 mt-6">
+                        {line.slice(3)}
+                      </h2>
+                    )
+                  } else if (line.startsWith("- **")) {
+                    const match = line.match(/- \*\*(.*?)\*\*: (.*)/)
+                    if (match) {
+                      return (
+                        <div key={index} className="mb-2">
+                          <span className="font-semibold text-stone-800">{match[1]}</span>: {match[2]}
+                        </div>
+                      )
+                    }
+                  } else if (line.startsWith("| Week |") || line.startsWith("|------|")) {
+                    return null // Skip table headers and separators for now
+                  } else if (line.startsWith("|")) {
+                    const cells = line
+                      .split("|")
+                      .map((cell) => cell.trim())
+                      .filter((cell) => cell)
+                    if (cells.length >= 3) {
+                      return (
+                        <div key={index} className="grid grid-cols-3 gap-4 py-2 border-b border-stone-100">
+                          <div className="font-medium text-stone-800">{cells[0]}</div>
+                          <div className="text-stone-700">{cells[1]}</div>
+                          <div className="text-stone-600">{cells[2]}</div>
+                        </div>
+                      )
+                    }
+                  } else if (line.trim()) {
+                    return (
+                      <p key={index} className="text-stone-700 mb-3">
+                        {line}
+                      </p>
+                    )
+                  }
+                  return null
+                })}
+              </div>
+            </div>
+            <div className="p-6 border-t border-stone-200 bg-stone-50">
+              <Button
+                onClick={() => setShowGuideModal(false)}
+                className="w-full bg-stone-800 hover:bg-stone-900 text-white"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -619,10 +875,20 @@ export default function DashboardPage() {
                           </Button>
                         </Link>
                       )}
-                      <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-transparent"
+                        onClick={() => handleViewGuide(skill.name, skill.display_name)}
+                      >
                         View Guide
                       </Button>
-                      <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 bg-transparent"
+                        onClick={() => handleViewTrainingPlan(skill.name, skill.display_name)}
+                      >
                         Training Plan
                       </Button>
                     </div>
@@ -769,10 +1035,20 @@ export default function DashboardPage() {
                             </Button>
                           </Link>
                         )}
-                        <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 bg-transparent"
+                          onClick={() => handleViewGuide(skill.name, skill.display_name)}
+                        >
                           View Guide
                         </Button>
-                        <Button variant="outline" size="sm" className="flex-1 bg-transparent">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1 bg-transparent"
+                          onClick={() => handleViewTrainingPlan(skill.name, skill.display_name)}
+                        >
                           Training Plan
                         </Button>
                       </div>
