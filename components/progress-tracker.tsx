@@ -100,7 +100,6 @@ export function ProgressTracker({ skillId, skillName, currentProgress, onProgres
                     <DialogContent className="sm:max-w-md">
                         <DialogHeader>
                             <DialogTitle className="font-heading">Update Your Progress</DialogTitle>
-                            <DialogDescription>Log your training session and update your progress on {skillName}</DialogDescription>
                         </DialogHeader>
 
                         <div className="space-y-6 py-4">
@@ -118,13 +117,13 @@ export function ProgressTracker({ skillId, skillName, currentProgress, onProgres
 
                             {/* Session Duration */}
                             <div className="space-y-2">
-                                <Label className="text-sm font-medium">Session Duration: {duration[0]} minutes</Label>
+                                <Label className="text-sm font-medium">Hold Duration: {duration[0]} minutes</Label>
                                 <Slider value={duration} onValueChange={setDuration} min={5} max={120} step={5} className="w-full" />
                             </div>
 
                             {/* Difficulty Rating */}
                             <div className="space-y-2">
-                                <Label className="text-sm font-medium">How challenging was today's session? {difficulty[0]}/10</Label>
+                                <Label className="text-sm font-medium">How challenging was today's hold? {difficulty[0]}/10</Label>
                                 <Slider value={difficulty} onValueChange={setDifficulty} min={1} max={10} step={1} className="w-full" />
                                 <div className="flex justify-between text-xs text-muted-foreground">
                                     <span>Too Easy</span>
@@ -140,7 +139,7 @@ export function ProgressTracker({ skillId, skillName, currentProgress, onProgres
                                 </Label>
                                 <Textarea
                                     id="notes"
-                                    placeholder="How did the session go? Any breakthroughs or challenges?"
+                                    placeholder="Notes here..."
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
                                     className="min-h-[80px]"
