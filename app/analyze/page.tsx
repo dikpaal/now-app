@@ -371,7 +371,7 @@ export default function AnalyzePage() {
                         roadmap_id: 1,
                         name: "elbow_lever",
                         display_name: "Elbow Lever",
-                        description: "Master the foundation of arm balancing with proper elbow placement",
+                        description: "",
                         icon: "💪",
                         difficulty_level: "beginner",
                         estimated_weeks: 10,
@@ -386,7 +386,7 @@ export default function AnalyzePage() {
                         roadmap_id: 1,
                         name: "l_sit",
                         display_name: "L-Sit",
-                        description: "Develop core strength and control with perfect L-sit form",
+                        description: "",
                         icon: "🔥",
                         difficulty_level: "intermediate",
                         estimated_weeks: 18,
@@ -801,10 +801,6 @@ export default function AnalyzePage() {
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 text-sm text-slate-600 font-[family-name:var(--font-inter)]">
-                                <Target className="h-4 w-4" />
-                                <span>Movement Analyzer</span>
-                            </div>
                             <Button
                                 onClick={() => console.log("Sign out clicked")}
                                 variant="outline"
