@@ -333,9 +333,6 @@ export default function CalisthenicsAnalyzer() {
                                     <p className="text-slate-600 text-lg font-medium font-[family-name:var(--font-inter)] transition-opacity duration-300">
                                         Ready for Analysis
                                     </p>
-                                    <p className="text-slate-500 text-sm max-w-xs font-[family-name:var(--font-inter)] transition-opacity duration-300">
-                                        Upload a photo of your movement to receive detailed form feedback
-                                    </p>
                                 </div>
                             )}
                         </CardContent>

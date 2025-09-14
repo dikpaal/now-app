@@ -283,7 +283,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 id: 1,
                 name: "push_static",
                 display_name: "Push Static Mastery",
-                description: "Build incredible pushing strength through progressive static holds",
+                description: "",
                 total_weeks: 102,
                 color_from: "#c17b5a",
                 color_to: "#7a8471",
@@ -408,7 +408,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 id: 2,
                 name: "pull_static",
                 display_name: "Pull Static Mastery",
-                description: "Develop incredible pulling strength and back control",
+                description: "",
                 total_weeks: 102,
                 color_from: "#7a8471",
                 color_to: "#c17b5a",
@@ -760,13 +760,13 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center gap-4">
-                            <Image
+                            {/* <Image
                                 src="/kuzan-logo.png"
                                 alt="Now Logo"
                                 width={40}
                                 height={40}
                                 className="transition-transform duration-300 hover:scale-105"
-                            />
+                            /> */}
                             <h1 className="font-heading text-2xl font-bold text-foreground">NOW</h1>
                         </div>
                         <div className="flex items-center gap-4">

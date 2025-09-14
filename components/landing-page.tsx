@@ -40,13 +40,13 @@ export default function LandingPage() {
             <header className="border-b border-border/20 bg-background/80 backdrop-blur-sm sticky top-0 z-50 transition-all duration-300">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center space-x-3 animate-in fade-in-left duration-700">
-                        <Image
+                        {/* <Image
                             src="/kuzan-logo.png"
                             alt="Now Logo"
                             width={40}
                             height={40}
                             className="rounded-lg transition-transform hover:scale-110 duration-300"
-                        />
+                        /> */}
                         <span className="font-heading text-2xl font-bold text-foreground">NOW</span>
                     </div>
                     <nav className="hidden md:flex items-center space-x-8 animate-in fade-in-right duration-700">
@@ -369,7 +369,7 @@ export default function LandingPage() {
                 <div className="container mx-auto">
                     <div className="flex flex-col md:flex-row justify-between items-center fade-in-up animate-in duration-700">
                         <div className="flex items-center space-x-3 mb-4 md:mb-0 transition-transform duration-300 hover:scale-105">
-                            <Image src="/kuzan-logo.png" alt="Now Logo" width={32} height={32} className="rounded-lg" />
+                            {/* <Image src="/kuzan-logo.png" alt="Now Logo" width={32} height={32} className="rounded-lg" /> */}
                             <span className="font-heading text-xl font-bold text-foreground">NOW</span>
                         </div>
                         <div className="flex space-x-6 text-sm text-muted-foreground">

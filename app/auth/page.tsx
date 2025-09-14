@@ -38,13 +38,13 @@ export default function AuthPage() {
                     {/* Logo Section */}
                     <div className="text-center space-y-4">
                         <div className="flex justify-center">
-                            <Image
+                            {/* <Image
                                 src="/kuzan-logo.png"
                                 alt="Kuzan Logo"
                                 width={80}
                                 height={80}
                                 className="transition-transform duration-300 hover:scale-105"
-                            />
+                            /> */}
                         </div>
                         <div>
                             <h1 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">Choose Your Path</h1>
@@ -140,23 +140,23 @@ export default function AuthPage() {
                 {/* Logo Section */}
                 <div className="text-center space-y-4">
                     <div className="flex justify-center">
-                        <Image
+                        {/* <Image
                             src="/kuzan-logo.png"
                             alt="Kuzan Logo"
                             width={80}
                             height={80}
                             className="transition-transform duration-300 hover:scale-105"
-                        />
+                        /> */}
                     </div>
                     <div>
                         <h1 className="font-heading text-3xl font-bold text-slate-800 tracking-tight">
                             {mode === "login" ? "Welcome Back" : "Join Now"}
                         </h1>
-                        <p className="text-slate-600 mt-2">
+                        {/* <p className="text-slate-600 mt-2">
                             {mode === "login"
                                 ? "Sign in to continue your calisthenics journey"
                                 : "Start your calisthenics journey with AI-powered analysis"}
-                        </p>
+                        </p> */}
                     </div>
                 </div>
 
@@ -166,9 +166,6 @@ export default function AuthPage() {
                         <CardTitle className="font-heading text-xl text-slate-800">
                             {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
                         </CardTitle>
-                        <CardDescription className="text-slate-600">
-                            {mode === "login" ? "Use your Google account to access Kuzan" : "Create your Kuzan account using Google"}
-                        </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <Button
@@ -219,7 +216,7 @@ export default function AuthPage() {
                     <p>
                         {mode === "signup"
                             ? "By signing up, you agree to our Terms of Service and Privacy Policy"
-                            : "© 2024 Kuzan. All rights reserved."}
+                            : "© 2025 Now. All rights reserved."}
                     </p>
                 </div>
             </div>

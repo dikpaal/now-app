@@ -193,13 +193,13 @@ export default function ProgressPage() {
                                     Back to Dashboard
                                 </Button>
                             </Link>
-                            <Image
+                            {/* <Image
                                 src="/now-logo.jpg" // Updated logo path from kuzan-logo.png to now-logo.jpg
                                 alt="Now Logo" // Updated alt text from KUZAN to Now
                                 width={40}
                                 height={40}
                                 className="transition-transform duration-300 hover:scale-105"
-                            />
+                            /> */}
                             <h1 className="font-heading text-2xl font-bold text-foreground">Progress Tracking</h1>
                         </div>
                     </div>

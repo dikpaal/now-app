@@ -186,13 +186,13 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
         push: {
             type: "push",
             title: "Push Static Mastery",
-            description: "Build incredible pushing strength through progressive static holds",
+            description: "",
             totalTime: "6-12 months",
             skills: [
                 {
                     id: "elbow-lever",
                     name: "Elbow Lever",
-                    description: "Master the foundation of arm balancing with this beginner-friendly static hold",
+                    description: "",
                     difficulty: "beginner",
                     prerequisites: ["Basic push-up strength", "Wrist flexibility"],
                     benefits: ["Core stability", "Arm balance foundation", "Wrist strength"],
@@ -201,7 +201,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 {
                     id: "l-sit",
                     name: "L-Sit",
-                    description: "Develop incredible core strength and control with this intermediate hold",
+                    description: "",
                     difficulty: "intermediate",
                     prerequisites: ["Elbow lever", "Hollow body hold", "Support hold"],
                     benefits: ["Core strength", "Hip flexor flexibility", "Shoulder stability"],
@@ -210,7 +210,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 {
                     id: "planche",
                     name: "Planche",
-                    description: "The ultimate pushing static hold - a true test of strength and control",
+                    description: "",
                     difficulty: "advanced",
                     prerequisites: ["L-sit", "Pseudo planche push-ups", "Handstand"],
                     benefits: ["Full body strength", "Advanced body control", "Elite pushing power"],
@@ -227,13 +227,13 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
         pull: {
             type: "pull",
             title: "Pull Static Mastery",
-            description: "Develop incredible pulling strength and back control",
+            description: "",
             totalTime: "4-10 months",
             skills: [
                 {
                     id: "back-lever",
                     name: "Back Lever",
-                    description: "Build posterior chain strength with this challenging pulling static",
+                    description: "",
                     difficulty: "intermediate",
                     prerequisites: ["Pull-ups", "German hangs", "Skin the cat"],
                     benefits: ["Posterior chain strength", "Shoulder flexibility", "Lat development"],
@@ -242,7 +242,7 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                 {
                     id: "front-lever",
                     name: "Front Lever",
-                    description: "Master the ultimate pulling static - the pinnacle of back strength",
+                    description: "",
                     difficulty: "advanced",
                     prerequisites: ["Back lever", "Weighted pull-ups", "Hollow body hold"],
                     benefits: ["Elite pulling strength", "Core integration", "Advanced body control"],
@@ -332,13 +332,13 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
                                     Back
                                 </Button>
                             </Link>
-                            <Image
+                            {/* <Image
                                 src="/now-logo.jpg" // Updated logo path from kuzan-logo.png to now-logo.jpg
                                 alt="Now Logo" // Updated alt text from KUZAN to Now
                                 width={40}
                                 height={40}
                                 className="transition-transform duration-300 hover:scale-105"
-                            />
+                            /> */}
                             <h1 className="font-heading text-2xl font-bold text-foreground">Skill Roadmaps</h1>
                         </div>
                     </div>
@@ -454,8 +454,6 @@ Progress: tuck → advanced tuck → one-leg → straddle → full.`,
 
                         {/* Skills Breakdown */}
                         <div className="space-y-6">
-                            <h3 className="font-heading text-2xl font-bold text-foreground text-center mb-8">Your Learning Path</h3>
-
                             {roadmapData[selectedRoadmap].skills.map((skill, index) => (
                                 <Card key={skill.id} className="relative">
                                     <CardHeader>
