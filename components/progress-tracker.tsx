@@ -66,15 +66,6 @@ export function ProgressTracker({ skillId, skillName, currentProgress, onProgres
         setIsOpen(false)
     }
 
-    const getProgressMessage = (progress: number) => {
-        if (progress === 0) return "Ready to start your journey!"
-        if (progress < 25) return "Great start! Keep building those fundamentals."
-        if (progress < 50) return "You're making solid progress! Stay consistent."
-        if (progress < 75) return "Excellent work! You're more than halfway there."
-        if (progress < 100) return "Almost there! The final push is the hardest."
-        return "Congratulations! You've mastered this skill!"
-    }
-
     const getProgressColor = (progress: number) => {
         if (progress < 25) return "text-secondary"
         if (progress < 50) return "text-primary"
@@ -99,10 +90,6 @@ export function ProgressTracker({ skillId, skillName, currentProgress, onProgres
             </CardHeader>
             <CardContent className="space-y-4">
                 <Progress value={currentProgress} className="h-3" />
-
-                <p className={`text-sm font-medium ${getProgressColor(currentProgress)}`}>
-                    {getProgressMessage(currentProgress)}
-                </p>
 
                 <Dialog open={isOpen} onOpenChange={setIsOpen}>
                     <DialogTrigger asChild>
